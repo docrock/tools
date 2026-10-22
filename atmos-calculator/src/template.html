@@ -194,6 +194,17 @@ aside .sticky { position: sticky; top: 16px; }
 footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
 .foot-top { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
 .made { font-size: 18px; color: var(--ink); font-weight: 800; }
+/*logo:start*/
+.logotype { display: none; }
+@supports ((mask-image: none) or (-webkit-mask-image: none)) {
+  .logotype { display: inline-block; vertical-align: middle; height: 1.9em; aspect-ratio: 825 / 210; margin: -.3em .15em 0; background-color: currentColor;
+    -webkit-mask: var(--logotype) center / contain no-repeat; mask: var(--logotype) center / contain no-repeat; }
+  .logotype + .logo-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+}
+@media print, (forced-colors: active) { .logotype { display: none !important; } .logotype + .logo-text { position: static !important; width: auto !important; height: auto !important; clip: auto !important; } }
+:root { --logotype: url("@LOGOTYPE_URI@"); }
+/*logo:end*/
+
 .socials { display: flex; gap: 8px; flex-wrap: wrap; }
 .socials a { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); text-decoration: none; color: var(--ink); font-weight: 700; background: var(--surface); }
 .socials a.news { background: var(--primary); color: var(--primary-ink); border-color: transparent; }
@@ -421,7 +432,7 @@ footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--m
 <footer>
   <div class="wrap">
     <div class="foot-top">
-      <div class="made">Built with Aloha by Doc Rock 🌺</div>
+      <div class="made">Built with Aloha by <span class="logotype" role="img" aria-label="Doc Rock"></span><span class="logo-text">Doc Rock</span> 🌺</div>
       <nav class="socials" aria-label="Doc Rock links">
         <a href="https://youtube.com/docrock" target="_blank" rel="noopener">▶ YouTube</a>
         <a href="https://www.instagram.com/docrock" target="_blank" rel="noopener">◎ Instagram</a>
