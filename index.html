@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Doc Rock Tools</title>
+<meta name="description" content="Free, private little tools from Doc Rock for creators and travelers. Nothing you type is saved or sent anywhere.">
+<style>
+:root { --bg: #eef4f8; --surface: #fff; --line: #d5e2ec; --ink: #0b2238; --muted: #4c6479; --accent: #0f8ea6;
+  --band: linear-gradient(115deg, #01426a 0%, #035e86 38%, #0f8ea6 64%, #3fb68b 86%, #9be3c9 100%); }
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #06131f; --surface: #0c2033; --line: #1d3a55; --ink: #e4f0f8; --muted: #92abc0; --accent: #4fd1c5;
+    --band: linear-gradient(115deg, #031a2c 0%, #04324f 35%, #0b6a7e 62%, #1f9d78 82%, #79e0b6 100%); }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+header { background: var(--band); color: #fff; padding: 48px 16px 56px; }
+.wrap { max-width: 880px; margin: 0 auto; padding: 0 16px; }
+h1 { margin: 0 0 6px; font-size: clamp(30px, 5vw, 44px); }
+header p { margin: 0; opacity: .92; font-size: 18px; }
+main { margin-top: -28px; }
+.tool { display: block; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; text-decoration: none; color: var(--ink); }
+.tool:hover { border-color: var(--accent); }
+.tool h2 { margin: 0 0 4px; font-size: 20px; }
+.tool p { margin: 0; color: var(--muted); }
+.tag { display: inline-block; font-size: 12px; font-weight: 800; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); margin-top: 10px; margin-right: 4px; }
+.soon { margin-top: 18px; color: var(--muted); }
+footer { padding: 36px 16px 48px; color: var(--muted); font-size: 14px; }
+footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>Doc Rock Tools</h1>
+  <p>Free little tools for creators and travelers. Nothing you type is ever saved or sent anywhere.</p>
+</div></header>
+<main class="wrap">
+  <a class="tool" href="atmos-calculator/">
+    <h2>✈️ Atmos Rewards Points Calculator</h2>
+    <p>Estimate Atmos points and status from Alaska, Hawaiian and partner flights, with airport-to-airport mileage and a route map.</p>
+    <span class="tag">Private</span><span class="tag">No sign-up</span><span class="tag">Works on phones</span>
+  </a>
+  <p class="soon">Coming later: earning calculators for Delta SkyMiles, United MileagePlus, JetBlue TrueBlue and more across oneworld, SkyTeam and Star Alliance.</p>
+</main>
+<footer class="wrap">
+  Built with Aloha by Doc Rock 🌺 · <a href="https://youtube.com/docrock" target="_blank" rel="noopener">YouTube</a> · <a href="https://www.instagram.com/docrock" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.creatorssandbox.com/sandbox?utm_source=travel-tool&amp;utm_medium=referral&amp;utm_campaign=tools-home" target="_blank" rel="noopener">Community</a>
+</footer>
+</body>
+</html>

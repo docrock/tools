@@ -1,0 +1,1006 @@
+<!doctype html>
+<html lang="en" data-theme="np" data-mode="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; form-action 'none'; base-uri 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Free, private Atmos Rewards points and status calculator for Alaska Airlines, Hawaiian Airlines and partner flights, with airport-to-airport mileage. Nothing you type is saved or sent anywhere.">
+<title>Atmos Points Calculator</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2301426a'/%3E%3Cpath d='M10 40 Q32 8 54 40' stroke='%2363d2c8' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='54' cy='40' r='5' fill='%23fff'/%3E%3C/svg%3E">
+<script>
+// Runs before paint so the saved theme never flashes. Theme + mode are the ONLY things this page remembers.
+(function () {
+  var t = 'np', m = 'auto';
+  try { t = localStorage.getItem('atmosCalc.theme') || t; m = localStorage.getItem('atmosCalc.mode') || m; } catch (e) {}
+  var dark = m === 'dark' || (m === 'auto' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.setAttribute('data-theme', t === 'aloha' ? 'aloha' : 'np');
+  document.documentElement.setAttribute('data-mode', dark ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-mode-pref', m);
+})();
+</script>
+<style>
+/* ---------- Theme tokens: colors + motifs only, inspired by the North Pacific and the islands ---------- */
+:root {
+  --radius: 14px;
+  --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+:root[data-theme="np"][data-mode="light"] {
+  --bg: #eef4f8; --surface: #ffffff; --surface-2: #f4f8fb; --line: #d5e2ec;
+  --ink: #0b2238; --muted: #4c6479; --primary: #01426a; --primary-ink: #ffffff;
+  --accent: #0f8ea6; --accent-2: #3fb68b; --glow: #63c6e6; --warn: #b45309; --danger: #b42318;
+  --band: linear-gradient(115deg, #01426a 0%, #035e86 38%, #0f8ea6 64%, #3fb68b 86%, #9be3c9 100%);
+  --motif: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='120' viewBox='0 0 1200 120'%3E%3Cpath d='M0 120 L120 60 L190 92 L300 22 L410 88 L470 60 L560 100 L680 30 L790 84 L880 50 L990 96 L1090 40 L1200 80 L1200 120 Z' fill='%23ffffff' fill-opacity='.12'/%3E%3Cpath d='M0 120 L80 96 L170 110 L260 80 L380 106 L520 76 L640 108 L760 86 L900 112 L1040 84 L1200 104 L1200 120 Z' fill='%23ffffff' fill-opacity='.14'/%3E%3C/svg%3E");
+  --land: #cfdde8; --sea: #e6f0f6; --route: #0f8ea6; --dot: #01426a;
+}
+:root[data-theme="np"][data-mode="dark"] {
+  --bg: #06131f; --surface: #0c2033; --surface-2: #0f2840; --line: #1d3a55;
+  --ink: #e4f0f8; --muted: #92abc0; --primary: #63c6e6; --primary-ink: #04172a;
+  --accent: #4fd1c5; --accent-2: #7ee2a8; --glow: #63c6e6; --warn: #f5b74e; --danger: #ff8a7a;
+  --band: linear-gradient(115deg, #031a2c 0%, #04324f 35%, #0b6a7e 62%, #1f9d78 82%, #79e0b6 100%);
+  --motif: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='120' viewBox='0 0 1200 120'%3E%3Cpath d='M0 120 L120 60 L190 92 L300 22 L410 88 L470 60 L560 100 L680 30 L790 84 L880 50 L990 96 L1090 40 L1200 80 L1200 120 Z' fill='%23000000' fill-opacity='.22'/%3E%3Cpath d='M0 120 L80 96 L170 110 L260 80 L380 106 L520 76 L640 108 L760 86 L900 112 L1040 84 L1200 104 L1200 120 Z' fill='%23000000' fill-opacity='.25'/%3E%3C/svg%3E");
+  --land: #17344f; --sea: #091b2b; --route: #4fd1c5; --dot: #e4f0f8;
+}
+:root[data-theme="aloha"][data-mode="light"] {
+  --bg: #fff5f3; --surface: #ffffff; --surface-2: #fdf0f4; --line: #f0d5e0;
+  --ink: #2a1033; --muted: #6e4a72; --primary: #4b2a8c; --primary-ink: #ffffff;
+  --accent: #c2187a; --accent-2: #ff7a59; --glow: #ffb3c9; --warn: #b45309; --danger: #b42318;
+  --band: linear-gradient(115deg, #3b1f74 0%, #6a2c91 30%, #c2187a 62%, #ff7a59 86%, #ffc27a 100%);
+  --motif: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='120' viewBox='0 0 220 120'%3E%3Cg fill='%23ffffff' fill-opacity='.16' transform='translate(60 60)'%3E%3Cellipse rx='10' ry='24' transform='rotate(0) translate(0 -20)'/%3E%3Cellipse rx='10' ry='24' transform='rotate(72) translate(0 -20)'/%3E%3Cellipse rx='10' ry='24' transform='rotate(144) translate(0 -20)'/%3E%3Cellipse rx='10' ry='24' transform='rotate(216) translate(0 -20)'/%3E%3Cellipse rx='10' ry='24' transform='rotate(288) translate(0 -20)'/%3E%3C/g%3E%3Cg fill='%23ffffff' fill-opacity='.1' transform='translate(170 30) scale(.5)'%3E%3Cellipse rx='10' ry='24' transform='rotate(0) translate(0 -20)'/%3E%3Cellipse rx='10' ry='24' transform='rotate(72) translate(0 -20)'/%3E%3Cellipse rx='10' ry='24' transform='rotate(144) translate(0 -20)'/%3E%3Cellipse rx='10' ry='24' transform='rotate(216) translate(0 -20)'/%3E%3Cellipse rx='10' ry='24' transform='rotate(288) translate(0 -20)'/%3E%3C/g%3E%3C/svg%3E");
+  --land: #f3dbe5; --sea: #fdeef3; --route: #c2187a; --dot: #4b2a8c;
+}
+:root[data-theme="aloha"][data-mode="dark"] {
+  --bg: #150a1d; --surface: #22122d; --surface-2: #2a1738; --line: #3f2552;
+  --ink: #fbeef6; --muted: #c6a9cf; --primary: #d1b3ff; --primary-ink: #1d0b2a;
+  --accent: #ff8fc0; --accent-2: #ffa57f; --glow: #ff8fc0; --warn: #f5b74e; --danger: #ff8a7a;
+  --band: linear-gradient(115deg, #1f0e3d 0%, #3d1a5e 32%, #84185c 64%, #c4513a 88%, #e0904a 100%);
+  --motif: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='120' viewBox='0 0 220 120'%3E%3Cg fill='%23ffffff' fill-opacity='.09' transform='translate(60 60)'%3E%3Cellipse rx='10' ry='24' transform='rotate(0) translate(0 -20)'/%3E%3Cellipse rx='10' ry='24' transform='rotate(72) translate(0 -20)'/%3E%3Cellipse rx='10' ry='24' transform='rotate(144) translate(0 -20)'/%3E%3Cellipse rx='10' ry='24' transform='rotate(216) translate(0 -20)'/%3E%3Cellipse rx='10' ry='24' transform='rotate(288) translate(0 -20)'/%3E%3C/g%3E%3Cg fill='%23ffffff' fill-opacity='.06' transform='translate(170 30) scale(.5)'%3E%3Cellipse rx='10' ry='24' transform='rotate(0) translate(0 -20)'/%3E%3Cellipse rx='10' ry='24' transform='rotate(72) translate(0 -20)'/%3E%3Cellipse rx='10' ry='24' transform='rotate(144) translate(0 -20)'/%3E%3Cellipse rx='10' ry='24' transform='rotate(216) translate(0 -20)'/%3E%3Cellipse rx='10' ry='24' transform='rotate(288) translate(0 -20)'/%3E%3C/g%3E%3C/svg%3E");
+  --land: #3a2149; --sea: #1b0d25; --route: #ff8fc0; --dot: #fbeef6;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 var(--font); transition: background .25s, color .25s; }
+a { color: var(--accent); }
+button, input, select { font: inherit; color: inherit; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 16px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* Header band */
+header.band { background: var(--motif) bottom / auto 100% repeat-x, var(--band); color: #fff; padding: 22px 0 64px; }
+:root[data-theme="aloha"] header.band { background: var(--motif) center / 220px 120px repeat, var(--band); }
+.band-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .02em; font-size: 14px; text-transform: uppercase; opacity: .95; }
+.brand svg { width: 30px; height: 30px; }
+h1 { font-size: clamp(28px, 4.6vw, 44px); line-height: 1.1; margin: 22px 0 8px; letter-spacing: -.01em; }
+.lede { max-width: 680px; margin: 0; font-size: 17px; opacity: .92; }
+.toggles { display: flex; gap: 8px; flex-wrap: wrap; }
+.seg { display: inline-flex; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.28); border-radius: 999px; padding: 3px; backdrop-filter: blur(6px); }
+.seg button { border: 0; background: transparent; color: #fff; padding: 6px 12px; border-radius: 999px; cursor: pointer; font-size: 14px; font-weight: 600; white-space: nowrap; }
+.seg button[aria-pressed="true"] { background: #fff; color: #10233a; }
+
+/* Privacy banner */
+.privacy { margin-top: -40px; position: relative; background: var(--surface); border: 2px solid var(--accent-2); border-radius: var(--radius); padding: 18px 20px; display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+.privacy .shield { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: color-mix(in srgb, var(--accent-2) 18%, transparent); color: var(--accent-2); }
+.privacy h2 { margin: 0 0 2px; font-size: 18px; }
+.privacy p { margin: 0; color: var(--muted); font-size: 15px; }
+.privacy .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.badge { font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); color: var(--ink); }
+.privacy-actions { display: flex; flex-direction: column; align-items: stretch; gap: 6px; }
+.btn-clear { background: var(--danger); color: #fff; border: 0; border-radius: 12px; padding: 12px 18px; font-weight: 800; font-size: 16px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; justify-content: center; }
+.btn-clear:hover { filter: brightness(1.08); }
+.linkish { background: none; border: 0; color: var(--muted); text-decoration: underline; cursor: pointer; font-size: 13px; padding: 2px; }
+
+/* Layout */
+main.grid { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 22px; margin: 22px auto 40px; align-items: start; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+.card + .card { margin-top: 18px; }
+.card h2, .card h3 { margin: 0 0 12px; font-size: 19px; }
+.card h3 { font-size: 16px; }
+.hint { color: var(--muted); font-size: 13px; margin: 4px 0 0; }
+.row { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+label.f { display: flex; flex-direction: column; gap: 5px; font-size: 13px; font-weight: 700; color: var(--muted); }
+input[type="text"], input[type="number"], input[type="date"], input[type="search"], select {
+  width: 100%; background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; color: var(--ink); min-height: 44px; font-weight: 500; }
+input:focus, select:focus, button:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 45%, transparent); outline-offset: 1px; }
+.route-input { font-family: var(--mono); font-size: 20px !important; letter-spacing: .06em; text-transform: uppercase; font-weight: 700 !important; }
+.btn { background: var(--primary); color: var(--primary-ink); border: 0; border-radius: 12px; padding: 12px 18px; font-weight: 800; cursor: pointer; min-height: 46px; }
+.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); font-weight: 700; }
+.btn.small { padding: 6px 12px; min-height: 34px; font-size: 14px; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; align-items: center; }
+
+/* Tabs */
+.tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--line); margin: -4px -4px 18px; padding: 0 4px; overflow-x: auto; }
+.tabs button { border: 0; background: none; padding: 10px 14px; font-weight: 800; color: var(--muted); border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-color: var(--accent); }
+[role="tabpanel"][hidden] { display: none; }
+.pill-seg { display: grid; grid-template-columns: 1fr 1fr; width: 100%; max-width: 440px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.pill-seg button { border: 0; background: var(--surface-2); padding: 10px 16px; font-weight: 700; cursor: pointer; min-height: 44px; }
+.pill-seg button[aria-pressed="true"] { background: var(--primary); color: var(--primary-ink); }
+
+/* Airport finder */
+.finder { position: relative; }
+.suggest { position: absolute; z-index: 20; left: 0; right: 0; top: calc(100% + 4px); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 30px rgba(0,0,0,.18); overflow: hidden; }
+.suggest button { display: grid; grid-template-columns: 54px 1fr; gap: 8px; width: 100%; text-align: left; border: 0; background: none; padding: 9px 12px; cursor: pointer; border-bottom: 1px solid var(--line); }
+.suggest button:last-child { border-bottom: 0; }
+.suggest button:hover, .suggest button.active { background: var(--surface-2); }
+.suggest .code { font-family: var(--mono); font-weight: 800; color: var(--accent); }
+.suggest .nm { font-size: 14px; font-weight: 600; color: var(--ink); }
+.suggest .ct { font-size: 12px; color: var(--muted); }
+
+/* Route preview */
+.map { width: 100%; aspect-ratio: 2 / 1; border-radius: 12px; overflow: hidden; background: var(--sea); border: 1px solid var(--line); margin-top: 14px; }
+.map svg { width: 100%; height: 100%; display: block; }
+.legs { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.legs li { display: flex; justify-content: space-between; gap: 10px; padding: 9px 12px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line); font-size: 14px; }
+.legs .codes { font-family: var(--mono); font-weight: 800; }
+.legs .mi { font-weight: 800; white-space: nowrap; }
+.legs li.total { background: color-mix(in srgb, var(--accent) 12%, var(--surface)); border-color: color-mix(in srgb, var(--accent) 40%, var(--line)); }
+.legs li.bad { border-color: var(--danger); color: var(--danger); }
+
+/* Items list */
+.items { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.item { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; background: var(--surface-2); }
+.item-head { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+.item-title { font-weight: 800; }
+.item-sub { font-size: 13px; color: var(--muted); }
+.item-pts { text-align: right; white-space: nowrap; font-weight: 800; font-size: 14px; }
+.item-pts .s { color: var(--muted); font-weight: 700; display: block; }
+.item-edit { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-top: 10px; }
+.item-edit select { min-height: 38px; padding: 6px 8px; font-size: 13px; }
+.item .x { border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 20px; line-height: 1; padding: 0 2px 0 8px; }
+.item .x:hover { color: var(--danger); }
+.item details { margin-top: 8px; font-size: 13px; }
+.item summary { cursor: pointer; color: var(--accent); font-weight: 700; }
+.item .err { color: var(--danger); font-size: 13px; font-weight: 700; margin-top: 6px; }
+.item .note { color: var(--warn); font-size: 13px; margin-top: 6px; }
+.calc { font-family: var(--mono); font-size: 12.5px; background: var(--surface); border: 1px dashed var(--line); padding: 8px 10px; border-radius: 8px; margin: 6px 0; white-space: pre-wrap; }
+.empty { color: var(--muted); text-align: center; padding: 22px 10px; border: 2px dashed var(--line); border-radius: 12px; font-size: 15px; }
+
+/* Results */
+aside .sticky { position: sticky; top: 16px; }
+.totals { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.total { border-radius: 12px; padding: 14px; background: var(--surface-2); border: 1px solid var(--line); }
+.total .k { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.total .v { font-size: 30px; font-weight: 900; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.total.a .v { color: var(--primary); }
+.total.s .v { color: var(--accent); }
+.progress { margin-top: 16px; }
+.bar { position: relative; height: 14px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; overflow: visible; margin: 26px 0 30px; }
+.bar .fill { position: absolute; inset: 0 auto 0 0; border-radius: 999px; background: var(--band); transition: width .4s ease; }
+.bar .tick { position: absolute; top: -6px; bottom: -6px; width: 2px; background: var(--muted); opacity: .55; }
+.bar .tick span { position: absolute; top: 22px; transform: translateX(-50%); font-size: 11px; font-weight: 800; color: var(--muted); white-space: nowrap; }
+.bar .tick.hit { background: var(--accent-2); opacity: 1; }
+.bar .tick.hit span { color: var(--ink); }
+.tier-now { display: flex; justify-content: space-between; gap: 10px; font-size: 14px; }
+.tier-now b { font-size: 16px; }
+.stack > * + * { margin-top: 10px; }
+
+/* Affiliate slots */
+.aff h3 { display: flex; align-items: center; gap: 6px; }
+.aff a.slot { display: block; text-decoration: none; color: var(--ink); padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); margin-top: 8px; }
+.aff a.slot:hover { border-color: var(--accent); }
+.aff a.slot b { display: block; font-size: 14px; }
+.aff a.slot span { font-size: 13px; color: var(--muted); }
+.ftc { font-size: 11.5px; color: var(--muted); margin-top: 10px; }
+.divider { display: flex; align-items: center; gap: 12px; margin: 22px 0; color: var(--muted); font-size: 13px; }
+.divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.divider a { color: var(--muted); font-weight: 700; text-decoration: none; white-space: nowrap; }
+.divider a:hover { color: var(--accent); }
+
+/* Footer */
+footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
+.foot-top { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.made { font-size: 18px; color: var(--ink); font-weight: 800; }
+.socials { display: flex; gap: 8px; flex-wrap: wrap; }
+.socials a { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); text-decoration: none; color: var(--ink); font-weight: 700; background: var(--surface); }
+.socials a.news { background: var(--primary); color: var(--primary-ink); border-color: transparent; }
+.fine { margin-top: 18px; font-size: 12.5px; line-height: 1.6; }
+.toast { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(140%); background: var(--ink); color: var(--bg); padding: 12px 18px; border-radius: 12px; font-weight: 800; transition: transform .25s; z-index: 50; max-width: calc(100% - 32px); text-align: center; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 900px) {
+  main.grid { grid-template-columns: minmax(0, 1fr); }
+  aside .sticky { position: static; }
+}
+@media (max-width: 620px) {
+  .privacy { grid-template-columns: 1fr; }
+  .privacy .shield { display: none; }
+  header.band { padding-bottom: 56px; }
+  .total .v { font-size: 24px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media print {
+  header.band, .privacy, .aff, .divider, footer .socials, .tabs, [role="tabpanel"], .btn, .x { display: none !important; }
+  main.grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="band">
+  <div class="wrap">
+    <div class="band-top">
+      <div class="brand">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="rgba(255,255,255,.18)"/><path d="M10 40 Q32 8 54 40" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="54" cy="40" r="5" fill="#fff"/></svg>
+        Points &amp; Miles Toolkit
+      </div>
+      <div class="toggles">
+        <div class="seg" role="group" aria-label="Color theme">
+          <button type="button" data-theme-btn="np">🏔️ North Pacific</button>
+          <button type="button" data-theme-btn="aloha">🌺 Aloha</button>
+        </div>
+        <div class="seg" role="group" aria-label="Light or dark mode">
+          <button type="button" data-mode-btn="auto" title="Match my device">Auto</button>
+          <button type="button" data-mode-btn="light" title="Light mode">☀️</button>
+          <button type="button" data-mode-btn="dark" title="Dark mode">🌙</button>
+        </div>
+      </div>
+    </div>
+    <h1>Atmos Rewards Points Calculator</h1>
+    <p class="lede">See what your Alaska, Hawaiian and partner flights will earn in Atmos points and status points. Type a route like <b>OGG‑HNL‑SEA</b> and we'll figure out the miles for you.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="privacy" aria-labelledby="privacy-title">
+    <div class="shield" aria-hidden="true">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+    </div>
+    <div>
+      <h2 id="privacy-title">We don't keep any of your data. Period.</h2>
+      <p>Your flights and numbers are never saved or sent anywhere. Refresh the page or hit <b>Clear everything</b> and they're gone for good. The only thing this page remembers, on your device only, is your color theme.</p>
+      <div class="badges">
+        <span class="badge">🚫 No accounts</span>
+        <span class="badge">🚫 No tracking or cookies</span>
+        <span class="badge">🔒 Zero network requests (browser‑enforced)</span>
+      </div>
+    </div>
+    <div class="privacy-actions">
+      <button type="button" class="btn-clear" id="clear-all">🗑️ Clear everything</button>
+      <button type="button" class="linkish" id="forget-theme">Forget my theme too</button>
+    </div>
+  </section>
+
+  <main class="grid">
+    <div>
+      <section class="card" aria-labelledby="start-title">
+        <h2 id="start-title">1 · Where you're starting</h2>
+        <div class="row">
+          <label class="f">Your current Atmos status
+            <select id="status-level"></select>
+          </label>
+          <label class="f">Status points already earned this year
+            <input type="number" id="prior-points" min="0" step="1" inputmode="numeric" placeholder="0">
+          </label>
+        </div>
+        <p class="hint">Status gives you a bonus on the base points from paid flights. Your earlier points just help the progress bar.</p>
+      </section>
+
+      <section class="card" aria-labelledby="add-title">
+        <h2 id="add-title">2 · Add what you'll earn</h2>
+        <div class="tabs" role="tablist" aria-label="What to add">
+          <button type="button" role="tab" id="tab-flights" aria-controls="panel-flights" aria-selected="true">✈️ Flights</button>
+          <button type="button" role="tab" id="tab-cards" aria-controls="panel-cards" aria-selected="false" tabindex="-1">💳 Credit cards</button>
+          <button type="button" role="tab" id="tab-manual" aria-controls="panel-manual" aria-selected="false" tabindex="-1">✍️ Hotels, cars &amp; other</button>
+        </div>
+
+        <!-- Flights -->
+        <div role="tabpanel" id="panel-flights" aria-labelledby="tab-flights">
+          <div class="row" style="grid-template-columns: 1fr;">
+            <label class="f">Your route (airport codes, any separator)
+              <input type="text" id="route" class="route-input" placeholder="HNL-SEA-JFK" autocomplete="off" autocapitalize="characters" spellcheck="false">
+            </label>
+          </div>
+          <div class="finder" style="margin-top:10px">
+            <label class="f">Don't know a code? Search by city or airport name
+              <input type="search" id="finder" placeholder="Try “Kona”, “Anchorage”, “Heathrow”…" autocomplete="off" aria-autocomplete="list" aria-controls="suggest">
+            </label>
+            <div class="suggest" id="suggest" role="listbox" hidden></div>
+          </div>
+
+          <div class="map" id="map" aria-label="Route map"></div>
+          <ul class="legs" id="legs" aria-live="polite"></ul>
+
+          <div style="margin-top:18px">
+            <div class="pill-seg" role="group" aria-label="Ticket type">
+              <button type="button" data-ticket="paid" aria-pressed="true">💵 Paid ticket</button>
+              <button type="button" data-ticket="award" aria-pressed="false">🎟️ Award ticket</button>
+            </div>
+          </div>
+          <div class="row" style="margin-top:14px" id="paid-fields">
+            <label class="f">Airline
+              <select id="airline"></select>
+            </label>
+            <label class="f">Booked through
+              <select id="via"></select>
+            </label>
+            <label class="f">Cabin
+              <select id="cabin"></select>
+            </label>
+            <label class="f" id="cls-wrap">Fare class (letter on your ticket)
+              <select id="cls"></select>
+            </label>
+          </div>
+          <div class="row" style="margin-top:12px">
+            <label class="f">Travel date
+              <input type="date" id="travel-date">
+            </label>
+            <label class="f" id="booking-wrap">Booking date
+              <input type="date" id="booking-date">
+            </label>
+            <label class="f" id="manual-mi-wrap">No route? Enter miles flown
+              <input type="number" id="manual-miles" min="1" step="1" inputmode="numeric" placeholder="e.g. 2677">
+            </label>
+          </div>
+          <p class="hint" id="flight-hint"></p>
+          <div class="actions">
+            <button type="button" class="btn" id="add-flight">＋ Add flight</button>
+            <span class="hint" id="add-flight-msg"></span>
+          </div>
+        </div>
+
+        <!-- Cards -->
+        <div role="tabpanel" id="panel-cards" aria-labelledby="tab-cards" hidden>
+          <label class="f">Card
+            <select id="card"></select>
+          </label>
+          <div class="row" id="card-cats" style="margin-top:12px"></div>
+          <div class="stack" style="margin-top:14px">
+            <label style="display:flex;gap:8px;align-items:center" id="rel-wrap"><input type="checkbox" id="card-rel"> I have the 10% Bank of America relationship bonus</label>
+            <label style="display:flex;gap:8px;align-items:center" id="anniv-wrap"><input type="checkbox" id="card-anniv"> Include this year's 10,000 anniversary status points</label>
+            <label class="f" style="max-width:280px">Welcome-offer points you've actually earned (optional)
+              <input type="number" id="card-offer" min="0" step="1" inputmode="numeric" placeholder="0">
+            </label>
+          </div>
+          <p class="hint" id="card-hint"></p>
+          <div class="actions"><button type="button" class="btn" id="add-card">＋ Add card spending</button></div>
+        </div>
+
+        <!-- Manual -->
+        <div role="tabpanel" id="panel-manual" aria-labelledby="tab-manual" hidden>
+          <p class="hint" style="margin:0 0 12px">Hotels, cruises, rental cars, rideshare, shopping and dining partners all pay different and sometimes changing amounts. Plug in what your quote or account says.</p>
+          <div class="row">
+            <label class="f">What is it?
+              <input type="text" id="man-desc" placeholder="e.g. Hilton stay via Atmos" maxlength="80">
+            </label>
+            <label class="f">Atmos points
+              <input type="number" id="man-atmos" min="0" step="1" inputmode="numeric" placeholder="0">
+            </label>
+            <label class="f">Status points
+              <input type="number" id="man-status" min="0" step="1" inputmode="numeric" placeholder="0">
+            </label>
+          </div>
+          <div class="actions"><button type="button" class="btn" id="add-manual">＋ Add entry</button></div>
+        </div>
+      </section>
+
+      <div class="divider" data-affiliate-slot="divider-1"><a href="https://www.amazon.com/shop/docrock" target="_blank" rel="noopener">🧳 Doc's carry-on travel picks →</a></div>
+
+      <section class="card" aria-labelledby="list-title">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+          <h2 id="list-title" style="margin:0">3 · Your trip &amp; earnings</h2>
+          <div style="display:flex;gap:8px">
+            <button type="button" class="btn ghost small" id="copy-summary">📋 Copy summary</button>
+            <button type="button" class="btn ghost small" id="print">🖨️ Print</button>
+          </div>
+        </div>
+        <ul class="items" id="items"></ul>
+      </section>
+    </div>
+
+    <aside>
+      <div class="sticky">
+        <section class="card" aria-labelledby="res-title">
+          <h2 id="res-title">Your estimate</h2>
+          <div class="totals">
+            <div class="total a"><div class="k">Atmos points</div><div class="v" id="t-atmos">0</div></div>
+            <div class="total s"><div class="k">Status points</div><div class="v" id="t-status">0</div></div>
+          </div>
+          <div class="progress">
+            <div class="tier-now"><span>Status this year</span><b id="tier-now">General member</b></div>
+            <div class="bar" id="bar"><div class="fill" id="bar-fill" style="width:0"></div></div>
+            <p class="hint" id="tier-next" style="margin:0"></p>
+            <p class="hint" id="milestone-next"></p>
+          </div>
+        </section>
+
+        <section class="card aff" aria-labelledby="aff-title" data-affiliate-slot="sidebar">
+          <h3 id="aff-title">🧳 Travel gear Doc uses</h3>
+          <a class="slot" href="https://www.amazon.com/shop/docrock" target="_blank" rel="noopener"><b>Carry-on &amp; packing picks</b><span>The bags and cubes that survive the inter-island hop.</span></a>
+          <a class="slot" href="https://www.amazon.com/shop/docrock" target="_blank" rel="noopener"><b>Long-haul comfort kit</b><span>Headphones, neck pillow and the good chargers.</span></a>
+          <a class="slot" href="https://www.amazon.com/shop/docrock" target="_blank" rel="noopener"><b>Creator travel tech</b><span>Gear for filming and streaming on the road.</span></a>
+          <p class="ftc">As an Amazon Associate I earn from qualifying purchases. Clicking a link doesn't share anything you typed here.</p>
+        </section>
+      </div>
+    </aside>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="made">Built with Aloha by Doc Rock 🌺</div>
+      <nav class="socials" aria-label="Doc Rock links">
+        <a href="https://youtube.com/docrock" target="_blank" rel="noopener">▶ YouTube</a>
+        <a href="https://www.instagram.com/docrock" target="_blank" rel="noopener">◎ Instagram</a>
+        <a href="https://www.creatorssandbox.com/sandbox?utm_source=travel-tool&amp;utm_medium=referral&amp;utm_campaign=atmos-calculator&amp;utm_content=community" target="_blank" rel="noopener">🏝️ Community</a>
+        <a class="news" href="https://www.creatorssandbox.com/sandbox?utm_source=travel-tool&amp;utm_medium=referral&amp;utm_campaign=atmos-calculator&amp;utm_content=newsletter" target="_blank" rel="noopener">✉️ Get the newsletter</a>
+      </nav>
+    </div>
+    <div class="fine">
+      <p><b>Estimates only.</b> Rates come from Alaska Airlines' published Atmos Rewards earning charts (last checked <span id="verified"></span>). Airlines change rules, so confirm on <a href="https://www.alaskaair.com/atmosrewards/content/earn-points/flights" target="_blank" rel="noopener">alaskaair.com</a> before you book. Mileage is the great‑circle distance between airports, which can differ slightly from what posts to your account.</p>
+      <p>An independent, fan‑made tool. Not affiliated with, endorsed by or sponsored by Alaska Airlines, Hawaiian Airlines or Atmos Rewards. All trademarks belong to their owners. Airport data: <a href="https://ourairports.com/data/" target="_blank" rel="noopener">OurAirports</a> (public domain). Map outlines: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener">Natural Earth</a> (public domain). Some links are affiliate links. As an Amazon Associate I earn from qualifying purchases.</p>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/*@DATA@*/
+</script>
+<script>
+(function () {
+'use strict';
+
+// ---------- Tiny helpers ----------
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const fmt = n => Math.round(n).toLocaleString('en-US');
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const todayIso = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+const prettyDate = iso => { const [y, m, d] = iso.split('-').map(Number); return new Date(y, m - 1, d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); };
+const num = el => { const v = Number(el.value); return Number.isFinite(v) && v > 0 ? v : 0; };
+let toastTimer;
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2600); }
+
+// ---------- Theme (the only thing we remember) ----------
+const root = document.documentElement;
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+  del(k) { try { localStorage.removeItem(k); } catch (e) {} },
+};
+const darkQuery = window.matchMedia ? matchMedia('(prefers-color-scheme: dark)') : null;
+// Works in memory even when the browser blocks storage (e.g. inside an embed); saving is a bonus.
+const look = { theme: root.getAttribute('data-theme'), pref: root.getAttribute('data-mode-pref') || 'auto' };
+function applyTheme() {
+  const theme = look.theme === 'aloha' ? 'aloha' : 'np';
+  const pref = look.pref;
+  const dark = pref === 'dark' || (pref === 'auto' && darkQuery && darkQuery.matches);
+  root.setAttribute('data-theme', theme);
+  root.setAttribute('data-mode', dark ? 'dark' : 'light');
+  root.setAttribute('data-mode-pref', pref);
+  $$('[data-theme-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.themeBtn === theme)));
+  $$('[data-mode-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.modeBtn === pref)));
+}
+$$('[data-theme-btn]').forEach(b => b.addEventListener('click', () => { look.theme = b.dataset.themeBtn; store.set('atmosCalc.theme', look.theme); applyTheme(); }));
+$$('[data-mode-btn]').forEach(b => b.addEventListener('click', () => { look.pref = b.dataset.modeBtn; store.set('atmosCalc.mode', look.pref); applyTheme(); }));
+if (darkQuery && darkQuery.addEventListener) darkQuery.addEventListener('change', applyTheme);
+applyTheme();
+
+// ---------- Airports + great-circle distance ----------
+const AIRPORTS = new Map();
+const AIRPORT_LIST = [];
+for (const line of AIRPORTS_RAW.split('\n')) {
+  const [code, name, city, country, lat, lon, rank] = line.split('|');
+  const a = { code, name, city, country, lat: +lat, lon: +lon, rank: +rank, hay: `${code} ${city} ${name}`.toLowerCase() };
+  AIRPORTS.set(code, a);
+  AIRPORT_LIST.push(a);
+}
+
+// Vincenty's inverse formula on the WGS-84 ellipsoid, the same model great-circle mappers use.
+function distanceMiles(a, b) {
+  const A = 6378137, B = 6356752.314245, F = 1 / 298.257223563, rad = Math.PI / 180;
+  const L = (b.lon - a.lon) * rad;
+  const U1 = Math.atan((1 - F) * Math.tan(a.lat * rad)), U2 = Math.atan((1 - F) * Math.tan(b.lat * rad));
+  const sinU1 = Math.sin(U1), cosU1 = Math.cos(U1), sinU2 = Math.sin(U2), cosU2 = Math.cos(U2);
+  let lambda = L, prev, iter = 0, sinSigma, cosSigma, sigma, cosSqAlpha, cos2SigmaM;
+  do {
+    const sinL = Math.sin(lambda), cosL = Math.cos(lambda);
+    sinSigma = Math.sqrt((cosU2 * sinL) ** 2 + (cosU1 * sinU2 - sinU1 * cosU2 * cosL) ** 2);
+    if (sinSigma === 0) return 0;
+    cosSigma = sinU1 * sinU2 + cosU1 * cosU2 * cosL;
+    sigma = Math.atan2(sinSigma, cosSigma);
+    const sinAlpha = cosU1 * cosU2 * sinL / sinSigma;
+    cosSqAlpha = 1 - sinAlpha * sinAlpha;
+    cos2SigmaM = cosSqAlpha ? cosSigma - 2 * sinU1 * sinU2 / cosSqAlpha : 0;
+    const C = F / 16 * cosSqAlpha * (4 + F * (4 - 3 * cosSqAlpha));
+    prev = lambda;
+    lambda = L + (1 - C) * F * sinAlpha * (sigma + C * sinSigma * (cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM ** 2)));
+  } while (Math.abs(lambda - prev) > 1e-12 && ++iter < 200);
+  if (iter >= 200) { // near-antipodal: fall back to a spherical great circle
+    const dLat = (b.lat - a.lat) * rad, dLon = (b.lon - a.lon) * rad;
+    const h = Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(dLon / 2) ** 2;
+    return 2 * 3958.7613 * Math.asin(Math.sqrt(h));
+  }
+  const uSq = cosSqAlpha * (A * A - B * B) / (B * B);
+  const kA = 1 + uSq / 16384 * (4096 + uSq * (-768 + uSq * (320 - 175 * uSq)));
+  const kB = uSq / 1024 * (256 + uSq * (-128 + uSq * (74 - 47 * uSq)));
+  const dSigma = kB * sinSigma * (cos2SigmaM + kB / 4 * (cosSigma * (-1 + 2 * cos2SigmaM ** 2) - kB / 6 * cos2SigmaM * (-3 + 4 * sinSigma ** 2) * (-3 + 4 * cos2SigmaM ** 2)));
+  return B * kA * (sigma - dSigma) / 1609.344;
+}
+
+function parseRoute(text) {
+  const tokens = text.toUpperCase().split(/[^A-Z0-9]+/).filter(Boolean);
+  const stops = tokens.map(code => ({ code, ap: AIRPORTS.get(code) || null }));
+  const legs = [];
+  for (let i = 0; i < stops.length - 1; i++) {
+    const from = stops[i], to = stops[i + 1];
+    legs.push({ from: from.code, to: to.code, ok: !!(from.ap && to.ap) && from.code !== to.code,
+      miles: from.ap && to.ap ? Math.round(distanceMiles(from.ap, to.ap)) : 0 });
+  }
+  return { stops, legs };
+}
+
+function searchAirports(q) {
+  q = q.trim().toLowerCase();
+  if (q.length < 2) return [];
+  const wordRe = new RegExp('(^|[^a-z])' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+  const scored = [];
+  for (const a of AIRPORT_LIST) {
+    // exact code first, then whole-word matches ("kona" finds Kailua-Kona), then partial matches; bigger airports win ties
+    let s = -1;
+    if (a.code.toLowerCase() === q) s = -10;
+    else if (wordRe.test(a.city) || wordRe.test(a.name)) s = 0;
+    else if (a.hay.includes(q)) s = 3;
+    if (s !== -1) scored.push([s * 2 + a.rank, a]);
+  }
+  return scored.sort((x, y) => x[0] - y[0]).slice(0, 8).map(x => x[1]);
+}
+
+// ---------- World map (equirectangular, Pacific-friendly wrap) ----------
+const landPath = LAND.map(r => 'M' + r.map(p => `${p[0]},${-p[1]}`).join('L') + 'Z').join('');
+function slerpPath(a, b, n) {
+  const rad = Math.PI / 180, toV = p => [Math.cos(p.lat * rad) * Math.cos(p.lon * rad), Math.cos(p.lat * rad) * Math.sin(p.lon * rad), Math.sin(p.lat * rad)];
+  const v1 = toV(a), v2 = toV(b);
+  const dot = Math.min(1, Math.max(-1, v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]));
+  const om = Math.acos(dot), out = [];
+  for (let i = 0; i <= n; i++) {
+    const t = i / n, k1 = om ? Math.sin((1 - t) * om) / Math.sin(om) : 1 - t, k2 = om ? Math.sin(t * om) / Math.sin(om) : t;
+    const x = k1 * v1[0] + k2 * v2[0], y = k1 * v1[1] + k2 * v2[1], z = k1 * v1[2] + k2 * v2[2];
+    out.push([Math.atan2(y, x) / rad, Math.atan2(z, Math.hypot(x, y)) / rad]);
+  }
+  return out;
+}
+function drawMap(stops) {
+  const known = stops.filter(s => s.ap).map(s => s.ap);
+  const lines = [];
+  let pts = [];
+  for (let i = 0; i < stops.length - 1; i++) {
+    if (!stops[i].ap || !stops[i + 1].ap) continue;
+    let seg = slerpPath(stops[i].ap, stops[i + 1].ap, 64);
+    // unwrap longitudes so the line never jumps across the date line
+    let prevLon = pts.length ? pts[pts.length - 1][0] : seg[0][0];
+    seg = seg.map(([lon, lat]) => { while (lon - prevLon > 180) lon -= 360; while (lon - prevLon < -180) lon += 360; prevLon = lon; return [lon, lat]; });
+    lines.push(seg); pts = pts.concat(seg);
+  }
+  let minX, maxX, minY, maxY;
+  if (pts.length) {
+    const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+    minX = Math.min(...xs); maxX = Math.max(...xs); minY = Math.min(...ys); maxY = Math.max(...ys);
+    const padX = Math.max(8, (maxX - minX) * .18), padY = Math.max(5, (maxY - minY) * .25);
+    minX -= padX; maxX += padX; minY -= padY; maxY += padY;
+    let w = maxX - minX, h = maxY - minY;
+    if (w < h * 2) { const c = (minX + maxX) / 2; w = h * 2; minX = c - w / 2; maxX = c + w / 2; }
+    else { const c = (minY + maxY) / 2; h = w / 2; minY = c - h / 2; maxY = c + h / 2; }
+    if (w > 360) { const c = (minX + maxX) / 2; minX = c - 180; maxX = c + 180; minY = -90; maxY = 90; }
+  } else if (known.length === 1) {
+    const a = known[0]; minX = a.lon - 30; maxX = a.lon + 30; minY = a.lat - 15; maxY = a.lat + 15;
+  } else { minX = -330; maxX = 30; minY = -90; maxY = 90; } // Pacific-centred world
+  const w = maxX - minX, h = maxY - minY, unit = w / 360;
+  // shift single dots near the view centre
+  const centre = (minX + maxX) / 2;
+  const near = lon => { while (lon - centre > 180) lon -= 360; while (lon - centre < -180) lon += 360; return lon; };
+  const dotStops = [];
+  if (lines.length) {
+    let idx = 0;
+    for (let i = 0; i < stops.length - 1; i++) {
+      if (!stops[i].ap || !stops[i + 1].ap) continue;
+      const seg = lines[idx++];
+      dotStops.push({ code: stops[i].code, x: seg[0][0], y: seg[0][1] }, { code: stops[i + 1].code, x: seg[seg.length - 1][0], y: seg[seg.length - 1][1] });
+    }
+  } else known.forEach(a => dotStops.push({ code: a.code, x: near(a.lon), y: a.lat }));
+  const seen = new Set();
+  const dots = dotStops.filter(d => { const k = d.code + Math.round(d.x); if (seen.has(k)) return false; seen.add(k); return true; });
+  const r = Math.max(.35, 4.2 * unit), fs = Math.max(1.2, 13 * unit), sw = Math.max(.2, 2.6 * unit);
+  $('#map').innerHTML = `<svg viewBox="${minX} ${-maxY} ${w} ${h}" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${esc(stops.map(s => s.code).join(' to ') || 'World map')}">
+    <rect x="${minX - 360}" y="-100" width="${w + 720}" height="200" fill="var(--sea)"/>
+    ${[-720, -360, 0, 360].map(o => `<path d="${landPath}" transform="translate(${o} 0)" fill="var(--land)" stroke="none"/>`).join('')}
+    ${lines.map(seg => `<polyline points="${seg.map(p => `${p[0].toFixed(3)},${(-p[1]).toFixed(3)}`).join(' ')}" fill="none" stroke="var(--route)" stroke-width="${sw}" stroke-linecap="round" stroke-dasharray="${sw * 2.4} ${sw * 1.6}"/>`).join('')}
+    ${dots.map(d => `<circle cx="${d.x}" cy="${-d.y}" r="${r}" fill="var(--dot)" stroke="var(--surface)" stroke-width="${r * .45}"/><text x="${d.x + r * 1.6}" y="${-d.y - r * 1.2}" font-size="${fs}" font-weight="800" fill="var(--ink)" paint-order="stroke" stroke="var(--sea)" stroke-width="${fs * .25}" font-family="ui-monospace, Menlo, monospace">${esc(d.code)}</text>`).join('')}
+  </svg>`;
+}
+
+// ---------- Earning rules (from Alaska's published charts) ----------
+const SAVER_BOOKING_CUTOFF = '2026-06-11', SAVER_TRAVEL_CUTOFF = '2026-07-31';
+const AIRLINE = new Map(RATES.airlines.map(a => [a.key, a]));
+const VIA_LABEL = { alaskaair: 'Alaska Airlines (alaskaair.com)', hawaiianair: 'Hawaiian Airlines (hawaiianairlines.com)', partner_site: 'The partner airline directly' };
+const STATUS = new Map(RATES.statusLevels.map(s => [s.key, s]));
+const pctTxt = p => `${p}%`;
+
+function chartFor(it) { const a = AIRLINE.get(it.airline); return a && RATES.charts[a.via[it.via]]; }
+
+function calcFlight(it, eliteBonus) {
+  const miles = it.miles, travel = it.travel || todayIso();
+  const booking = it.booking || (travel < todayIso() ? travel : todayIso());
+  const res = { atmos: 0, status: 0, lines: [], note: '', error: '' };
+  if (!(miles > 0)) { res.error = 'Distance is missing.'; return res; }
+  if (booking > travel) { res.error = "The booking date can't be after the travel date."; return res; }
+  if (it.ticket === 'award') {
+    if (travel < '2025-01-01') { res.error = 'Award travel before 2025 used older rules. Add what posted as a manual entry.'; return res; }
+    res.status = Math.round(miles);
+    res.lines.push(`Award ticket: 0 Atmos points (you paid with points)`, `Status: ${fmt(miles)} mi × 1 status point per mile = ${fmt(res.status)}`);
+    res.note = 'Award flights earn 1 status point per mile flown, on Alaska, Hawaiian and eligible partners.';
+    res.src = RATES.sources.award;
+    return res;
+  }
+  const airline = AIRLINE.get(it.airline), chart = chartFor(it);
+  if (!chart) { res.error = 'That airline can’t be booked that way.'; return res; }
+  res.src = chart.src;
+  if (chart.manual) { res.error = chart.note; return res; }
+  const cabin = chart.cabins.find(c => c.name === it.cabin) || chart.cabins[0];
+  const rate = cabin.classes.find(c => c.codes === it.cls) || cabin.classes[0];
+  let minDist = chart.min, eligible = true;
+  if (airline.group === 'primary') {
+    if (airline.key === 'alaska' && travel < '2025-01-01') { res.error = 'Alaska flights before Jan 1, 2025 used older rules. Add what posted as a manual entry.'; return res; }
+    if (airline.key === 'hawaiian' && travel < '2026-04-22') { res.error = 'Hawaiian flights before Apr 22, 2026 earned under HawaiianMiles. Add what posted as a manual entry.'; return res; }
+    if (rate.codes === 'X') {
+      minDist = 0;
+      res.src = RATES.sources.saver;
+      if (travel <= SAVER_TRAVEL_CUTOFF) res.note = 'Saver fares earn 30% when you travel on or before July 31, 2026.';
+      else if (!it.booking) { res.error = 'Saver flights after Aug 1, 2026 need a booking date: they earn only if booked before June 11, 2026.'; return res; }
+      else if (booking < SAVER_BOOKING_CUTOFF) res.note = 'Saver earns 30% because it was booked before June 11, 2026.';
+      else { eligible = false; res.note = 'Saver fares booked on or after June 11, 2026 for travel from Aug 1, 2026 earn nothing.'; }
+    } else if (miles < minDist) res.note = `Alaska and Hawaiian flights count at least ${minDist} miles, so this short hop earns as ${minDist}.`;
+  } else if (chart.from && travel < chart.from) { res.error = `${airline.name} travel before ${prettyDate(chart.from)} used older rules. Add what posted as a manual entry.`; return res; }
+  if (!eligible) { res.lines.push('Not eligible to earn: 0 Atmos points, 0 status points'); return res; }
+  const d = Math.max(miles, minDist);
+  const base = Math.round(d * rate.base / 100), bonus = Math.round(d * rate.bonus / 100), elite = Math.round(d * rate.base / 100 * eliteBonus / 100);
+  res.status = Math.round(d * rate.status / 100);
+  res.atmos = base + bonus + elite;
+  res.lines.push(
+    `Earning distance: ${fmt(d)} mi${d > miles ? ` (minimum; flown ${fmt(miles)})` : ''}`,
+    `Base: ${fmt(d)} × ${pctTxt(rate.base)} = ${fmt(base)}`,
+    `Fare-class bonus: ${fmt(d)} × ${pctTxt(rate.bonus)} = ${fmt(bonus)}`,
+    `Elite bonus: ${fmt(base)} base × ${pctTxt(eliteBonus)} = ${fmt(elite)}`,
+    `Atmos points: ${fmt(base)} + ${fmt(bonus)} + ${fmt(elite)} = ${fmt(res.atmos)}`,
+    `Status points: ${fmt(d)} × ${pctTxt(rate.status)} = ${fmt(res.status)}`);
+  if (!res.note) res.note = chart.note;
+  if (airline.key === 'hainan') res.note = 'Alaska has paused new Hainan award bookings; paid tickets still earn. ' + res.note;
+  return res;
+}
+
+function calcCard(it) {
+  const card = RATES.cards.find(c => c.key === it.card);
+  const res = { atmos: 0, status: 0, lines: [], note: card.note || '', error: '', src: card.src };
+  let spend = 0, purchase = 0;
+  for (const cat of card.cats) {
+    let s = it.spends[cat.key] || 0;
+    if (cat.cap && s > cat.cap) { s = cat.cap; res.note = `${cat.label} is capped at $${fmt(cat.cap)} a year, so we counted $${fmt(cat.cap)}.`; }
+    if (!s) continue;
+    const p = Math.round(s * cat.rate);
+    spend += s; purchase += p;
+    res.lines.push(`${cat.label}: $${fmt(s)} × ${cat.rate} = ${fmt(p)}`);
+  }
+  const rel = it.rel && card.relBonus ? Math.round(purchase * card.relBonus / 100) : 0;
+  const offer = Math.round(it.offer || 0);
+  const statusSpend = Math.round(spend / card.statusPer);
+  const anniv = it.anniv ? card.anniversary : 0;
+  if (rel) res.lines.push(`Relationship bonus: ${fmt(purchase)} × ${card.relBonus}% = ${fmt(rel)}`);
+  if (offer) res.lines.push(`Welcome offer (you confirmed): ${fmt(offer)}`);
+  res.lines.push(`Status from spending: $${fmt(spend)} ÷ $${card.statusPer} = ${fmt(statusSpend)}`);
+  if (anniv) res.lines.push(`Anniversary status points: ${fmt(anniv)}`);
+  res.atmos = purchase + rel + offer;
+  res.status = statusSpend + anniv;
+  res.spend = spend;
+  return res;
+}
+
+// ---------- State (lives in memory only) ----------
+const state = { items: [], ticket: 'paid', nextId: 1 };
+
+// ---------- Flight form ----------
+const el = {
+  route: $('#route'), finder: $('#finder'), suggest: $('#suggest'), legs: $('#legs'),
+  airline: $('#airline'), via: $('#via'), cabin: $('#cabin'), cls: $('#cls'), clsWrap: $('#cls-wrap'),
+  travel: $('#travel-date'), booking: $('#booking-date'), manualMiles: $('#manual-miles'), manualWrap: $('#manual-mi-wrap'),
+  hint: $('#flight-hint'), addFlight: $('#add-flight'), addMsg: $('#add-flight-msg'),
+  status: $('#status-level'), prior: $('#prior-points'),
+};
+
+function airlineOptions(selected) {
+  const groups = [['primary', 'Alaska & Hawaiian'], ['oneworld', 'oneworld partners'], ['partner', 'Other partners'], ['earn_only', 'Earn-only partners']];
+  return groups.map(([g, label]) => `<optgroup label="${label}">${RATES.airlines.filter(a => a.group === g).map(a => `<option value="${a.key}"${a.key === selected ? ' selected' : ''}>${esc(a.name)} (${a.code})</option>`).join('')}</optgroup>`).join('');
+}
+function viaOptions(airlineKey, selected) {
+  return Object.keys(AIRLINE.get(airlineKey).via).map(v => `<option value="${v}"${v === selected ? ' selected' : ''}>${VIA_LABEL[v]}</option>`).join('');
+}
+function cabinOptions(chart, selected) { return chart.cabins.map(c => `<option${c.name === selected ? ' selected' : ''}>${esc(c.name)}</option>`).join(''); }
+function classOptions(chart, cabinName, selected) {
+  const cab = chart.cabins.find(c => c.name === cabinName) || chart.cabins[0];
+  return cab.classes.map(c => `<option value="${esc(c.codes)}"${c.codes === selected ? ' selected' : ''}>${esc(chart.byCabin ? 'Rate for this cabin' : c.codes + (c.codes === 'X' ? ' (Saver)' : ''))}</option>`).join('');
+}
+
+function syncFlightForm(changed) {
+  const isAward = state.ticket === 'award';
+  $$('[data-ticket]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.ticket === state.ticket)));
+  $('#paid-fields').style.display = isAward ? 'none' : '';
+  if (changed === 'airline' || !el.via.value) el.via.innerHTML = viaOptions(el.airline.value);
+  const chart = RATES.charts[AIRLINE.get(el.airline.value).via[el.via.value]];
+  if (changed === 'airline' || changed === 'via' || !el.cabin.value) el.cabin.innerHTML = cabinOptions(chart, el.cabin.value);
+  if (changed !== 'cls') el.cls.innerHTML = classOptions(chart, el.cabin.value, el.cls.value);
+  el.clsWrap.style.display = chart.byCabin ? 'none' : '';
+  const route = parseRoute(el.route.value);
+  el.manualWrap.style.display = route.legs.length ? 'none' : '';
+  const isPrimary = AIRLINE.get(el.airline.value).group === 'primary';
+  const saverLate = !isAward && isPrimary && el.cls.value === 'X' && (el.travel.value || todayIso()) > SAVER_TRAVEL_CUTOFF;
+  $('#booking-wrap').firstChild.textContent = saverLate ? 'Booking date (required for Saver)' : 'Booking date (optional)';
+  let hint = isAward
+    ? 'Award flights earn 1 status point per mile flown and no Atmos points. Elite and fare bonuses don’t apply.'
+    : chart.manual ? '⚠️ ' + chart.note : chart.note;
+  hint += ' Blank dates count as today.';
+  el.hint.textContent = hint;
+  const count = route.legs.filter(l => l.ok).length;
+  el.addFlight.textContent = count > 1 ? `＋ Add ${count} flights` : '＋ Add flight';
+}
+
+function renderRoute() {
+  const { stops, legs } = parseRoute(el.route.value);
+  drawMap(stops);
+  const unknown = stops.filter(s => !s.ap);
+  let html = legs.map(l => l.ok
+    ? `<li><span><span class="codes">${l.from} → ${l.to}</span> <span class="item-sub">${esc(AIRPORTS.get(l.from).city)} to ${esc(AIRPORTS.get(l.to).city)}</span></span><span class="mi">${fmt(l.miles)} mi</span></li>`
+    : `<li class="bad"><span class="codes">${esc(l.from)} → ${esc(l.to)}</span><span>${l.from === l.to ? 'Same airport' : 'Check the code'}</span></li>`).join('');
+  const good = legs.filter(l => l.ok);
+  if (good.length > 1) html += `<li class="total"><span><b>Total trip</b> · ${good.length} flights</span><span class="mi">${fmt(good.reduce((s, l) => s + l.miles, 0))} mi</span></li>`;
+  if (!legs.length && stops.length === 1) html = stops[0].ap
+    ? `<li><span><span class="codes">${stops[0].code}</span> <span class="item-sub">${esc(stops[0].ap.name)}, ${esc(stops[0].ap.city)}</span></span><span class="item-sub">add another code</span></li>`
+    : `<li class="bad"><span class="codes">${esc(stops[0].code)}</span><span>Check the code</span></li>`;
+  if (unknown.length && legs.length) html += `<li class="bad"><span>Unknown code${unknown.length > 1 ? 's' : ''}: ${unknown.map(u => esc(u.code)).join(', ')}</span><span>Use the search box</span></li>`;
+  el.legs.innerHTML = html;
+  syncFlightForm();
+}
+
+// Airport finder
+let active = -1, results = [];
+function showSuggest() {
+  results = searchAirports(el.finder.value);
+  active = -1;
+  el.suggest.hidden = !results.length;
+  el.suggest.innerHTML = results.map((a, i) => `<button type="button" role="option" data-i="${i}"><span class="code">${a.code}</span><span><span class="nm">${esc(a.name)}</span><br><span class="ct">${esc(a.city)}${a.city ? ', ' : ''}${esc(a.country)}</span></span></button>`).join('');
+}
+function pickAirport(a) {
+  const v = el.route.value.trim();
+  el.route.value = v ? `${v.replace(/[^A-Za-z0-9]+$/, '')}-${a.code}` : a.code;
+  el.finder.value = ''; el.suggest.hidden = true;
+  renderRoute();
+  toast(`Added ${a.code} · ${a.city || a.name}`);
+}
+el.finder.addEventListener('input', showSuggest);
+el.finder.addEventListener('keydown', e => {
+  if (el.suggest.hidden) return;
+  const btns = $$('button', el.suggest);
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    active = (active + (e.key === 'ArrowDown' ? 1 : -1) + btns.length) % btns.length;
+    btns.forEach((b, i) => b.classList.toggle('active', i === active));
+  } else if (e.key === 'Enter') { e.preventDefault(); pickAirport(results[Math.max(0, active)]); }
+  else if (e.key === 'Escape') el.suggest.hidden = true;
+});
+el.suggest.addEventListener('mousedown', e => e.preventDefault());
+el.suggest.addEventListener('click', e => { const b = e.target.closest('button'); if (b) pickAirport(results[+b.dataset.i]); });
+el.finder.addEventListener('blur', () => setTimeout(() => { el.suggest.hidden = true; }, 120));
+
+el.route.addEventListener('input', renderRoute);
+el.airline.addEventListener('change', () => syncFlightForm('airline'));
+el.via.addEventListener('change', () => syncFlightForm('via'));
+el.cabin.addEventListener('change', () => syncFlightForm('cabin'));
+el.cls.addEventListener('change', () => syncFlightForm('cls'));
+el.travel.addEventListener('change', () => syncFlightForm());
+$$('[data-ticket]').forEach(b => b.addEventListener('click', () => { state.ticket = b.dataset.ticket; syncFlightForm(); }));
+
+el.addFlight.addEventListener('click', () => {
+  const { legs } = parseRoute(el.route.value);
+  const good = legs.filter(l => l.ok);
+  const base = { type: 'flight', ticket: state.ticket, airline: el.airline.value, via: el.via.value, cabin: el.cabin.value, cls: el.cls.value, travel: el.travel.value, booking: el.booking.value };
+  let added = [];
+  if (good.length) added = good.map(l => ({ ...base, id: state.nextId++, from: l.from, to: l.to, miles: l.miles }));
+  else if (legs.length) { el.addMsg.textContent = 'Fix the airport codes above first.'; return; }
+  else if (num(el.manualMiles)) added = [{ ...base, id: state.nextId++, from: '', to: '', miles: Math.round(num(el.manualMiles)) }];
+  else { el.addMsg.textContent = 'Type a route like HNL-SEA, or enter miles.'; el.route.focus(); return; }
+  state.items.push(...added);
+  el.addMsg.textContent = '';
+  el.route.value = ''; el.manualMiles.value = '';
+  renderRoute(); renderItems();
+  toast(added.length > 1 ? `Added ${added.length} flights` : 'Flight added');
+});
+
+// ---------- Cards ----------
+const cardSel = $('#card');
+cardSel.innerHTML = RATES.cards.map(c => `<option value="${c.key}">${esc(c.name)}</option>`).join('');
+function syncCard() {
+  const card = RATES.cards.find(c => c.key === cardSel.value);
+  $('#card-cats').innerHTML = card.cats.map(c => `<label class="f">${esc(c.label)} <span style="font-weight:600">· ${c.rate}× points${c.cap ? `, up to $${fmt(c.cap)}/yr` : ''}</span>
+    <input type="number" min="0" step="1" inputmode="decimal" placeholder="$ spent" data-cat="${c.key}"></label>`).join('');
+  $('#rel-wrap').style.display = card.relBonus ? 'flex' : 'none';
+  $('#anniv-wrap').style.display = card.anniversary ? 'flex' : 'none';
+  $('#card-hint').textContent = `Status points: 1 for every $${card.statusPer} of eligible spending.` + (card.note ? ' ' + card.note : '');
+}
+cardSel.addEventListener('change', syncCard);
+$('#add-card').addEventListener('click', () => {
+  const spends = {};
+  $$('[data-cat]').forEach(i => { if (num(i)) spends[i.dataset.cat] = num(i); });
+  const it = { type: 'card', id: state.nextId++, card: cardSel.value, spends, rel: $('#card-rel').checked, anniv: $('#card-anniv').checked, offer: num($('#card-offer')) };
+  if (!Object.keys(spends).length && !it.offer && !it.anniv) { toast('Enter some spending first'); return; }
+  state.items.push(it);
+  $$('[data-cat]').forEach(i => { i.value = ''; }); $('#card-offer').value = ''; $('#card-rel').checked = false; $('#card-anniv').checked = false;
+  renderItems(); toast('Card spending added');
+});
+
+// ---------- Manual ----------
+$('#add-manual').addEventListener('click', () => {
+  const desc = $('#man-desc').value.trim() || 'Other earning', atmos = Math.round(num($('#man-atmos'))), status = Math.round(num($('#man-status')));
+  if (!atmos && !status) { toast('Enter some points first'); return; }
+  state.items.push({ type: 'manual', id: state.nextId++, desc, atmos, status });
+  $('#man-desc').value = ''; $('#man-atmos').value = ''; $('#man-status').value = '';
+  renderItems(); toast('Entry added');
+});
+
+// ---------- Tabs ----------
+const tabs = $$('[role="tab"]');
+function selectTab(t) {
+  tabs.forEach(x => { const on = x === t; x.setAttribute('aria-selected', String(on)); x.tabIndex = on ? 0 : -1; $('#' + x.getAttribute('aria-controls')).hidden = !on; });
+}
+tabs.forEach((t, i) => {
+  t.addEventListener('click', () => selectTab(t));
+  t.addEventListener('keydown', e => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length]; selectTab(n); n.focus();
+  });
+});
+
+// ---------- Items + totals ----------
+function computeAll() {
+  const elite = STATUS.get(el.status.value).bonus;
+  return state.items.map(it => ({ it, r: it.type === 'flight' ? calcFlight(it, elite) : it.type === 'card' ? calcCard(it) : { atmos: it.atmos, status: it.status, lines: [], note: '', error: '' } }));
+}
+
+function itemTitle(it) {
+  if (it.type === 'flight') {
+    const a = AIRLINE.get(it.airline);
+    const route = it.from ? `${it.from} → ${it.to}` : 'Flight';
+    return `${route} · ${it.ticket === 'award' ? 'Award' : a.name}`;
+  }
+  if (it.type === 'card') return RATES.cards.find(c => c.key === it.card).name;
+  return it.desc;
+}
+function itemSub(it, r) {
+  if (it.type === 'flight') {
+    const parts = [`${fmt(it.miles)} mi`];
+    if (it.ticket !== 'award') { const ch = chartFor(it); parts.push(ch && ch.byCabin ? it.cabin : `${it.cabin}, ${it.cls}`); }
+    parts.push(prettyDate(it.travel || todayIso()));
+    return parts.join(' · ');
+  }
+  if (it.type === 'card') return `$${fmt(r.spend || 0)} spending`;
+  return 'Manual entry';
+}
+
+function renderItems() {
+  const rows = computeAll();
+  const list = $('#items');
+  if (!rows.length) list.innerHTML = `<li class="empty">Nothing yet. Add a flight, card or other entry above and your earnings show up here. 🌴</li>`;
+  else list.innerHTML = rows.map(({ it, r }) => {
+    let edit = '';
+    if (it.type === 'flight' && it.ticket !== 'award') {
+      const ch = chartFor(it);
+      edit = `<div class="item-edit">
+        <select aria-label="Airline" data-edit="airline">${airlineOptions(it.airline)}</select>
+        <select aria-label="Booked through" data-edit="via">${viaOptions(it.airline, it.via)}</select>
+        ${ch ? `<select aria-label="Cabin" data-edit="cabin">${cabinOptions(ch, it.cabin)}</select>` : ''}
+        ${ch && !ch.byCabin ? `<select aria-label="Fare class" data-edit="cls">${classOptions(ch, it.cabin, it.cls)}</select>` : ''}
+      </div>`;
+    }
+    const how = r.lines.length || r.note ? `<details><summary>How this was calculated</summary><div class="calc">${r.lines.map(esc).join('\n')}</div>${r.note ? `<div>${esc(r.note)}</div>` : ''}${r.src ? `<div><a href="${esc(r.src)}" target="_blank" rel="noopener">Official rule on alaskaair.com ↗</a></div>` : ''}</details>` : '';
+    return `<li class="item" data-id="${it.id}">
+      <div class="item-head">
+        <div><div class="item-title">${esc(itemTitle(it))}</div><div class="item-sub">${esc(itemSub(it, r))}</div></div>
+        <div style="display:flex;align-items:flex-start">
+          <div class="item-pts">${r.error ? '—' : fmt(r.atmos) + ' pts'}<span class="s">${r.error ? '' : fmt(r.status) + ' status'}</span></div>
+          <button type="button" class="x" data-remove aria-label="Remove ${esc(itemTitle(it))}">×</button>
+        </div>
+      </div>
+      ${edit}
+      ${r.error ? `<div class="err">⚠️ ${esc(r.error)}</div>` : ''}
+      ${how}
+    </li>`;
+  }).join('');
+  renderTotals(rows);
+}
+
+$('#items').addEventListener('click', e => {
+  const btn = e.target.closest('[data-remove]');
+  if (!btn) return;
+  const id = +btn.closest('.item').dataset.id;
+  state.items = state.items.filter(i => i.id !== id);
+  renderItems();
+});
+$('#items').addEventListener('change', e => {
+  const sel = e.target.closest('[data-edit]');
+  if (!sel) return;
+  const it = state.items.find(i => i.id === +sel.closest('.item').dataset.id);
+  const field = sel.dataset.edit;
+  it[field] = sel.value;
+  if (field === 'airline') it.via = Object.keys(AIRLINE.get(it.airline).via)[0];
+  if (field === 'airline' || field === 'via') { const ch = chartFor(it); it.cabin = ch.cabins[0].name; it.cls = ch.cabins[0].classes[0].codes; }
+  if (field === 'cabin') { const ch = chartFor(it); it.cls = (ch.cabins.find(c => c.name === it.cabin) || ch.cabins[0]).classes[0].codes; }
+  renderItems();
+});
+
+function renderTotals(rows) {
+  const atmos = rows.reduce((s, x) => s + (x.r.error ? 0 : x.r.atmos), 0);
+  const earned = rows.reduce((s, x) => s + (x.r.error ? 0 : x.r.status), 0);
+  const total = earned + Math.round(num(el.prior));
+  $('#t-atmos').textContent = fmt(atmos);
+  $('#t-status').textContent = fmt(earned);
+  const tiers = RATES.tiers, top = tiers[tiers.length - 1].points * 1.08;
+  const cur = [...tiers].reverse().find(t => total >= t.points), next = tiers.find(t => total < t.points);
+  $('#tier-now').textContent = cur ? `${cur.name} · oneworld ${cur.oneworld}` : 'General member';
+  $('#bar-fill').style.width = Math.min(100, total / top * 100) + '%';
+  $('#bar').querySelectorAll('.tick').forEach(t => t.remove());
+  tiers.forEach(t => {
+    const d = document.createElement('div');
+    d.className = 'tick' + (total >= t.points ? ' hit' : '');
+    d.style.left = (t.points / top * 100) + '%';
+    d.innerHTML = `<span>${t.name.replace('Atmos ', '')}</span>`;
+    d.title = `${t.name}: ${fmt(t.points)} status points`;
+    $('#bar').appendChild(d);
+  });
+  const prior = Math.round(num(el.prior));
+  $('#tier-next').textContent = next
+    ? `${fmt(total)} status points${prior ? ` (incl. ${fmt(prior)} already earned)` : ''}. ${fmt(next.points - total)} more to reach ${next.name}.`
+    : `${fmt(total)} status points. You've hit the top tier. 🏆`;
+  const ms = RATES.milestones.find(m => total < m);
+  $('#milestone-next').textContent = ms ? `Next milestone reward choice at ${fmt(ms)} (${fmt(ms - total)} to go).` : 'Every milestone choice unlocked.';
+}
+
+el.status.innerHTML = RATES.statusLevels.map(s => `<option value="${s.key}">${esc(s.name)}${s.bonus ? ` (+${s.bonus}% bonus)` : ''}</option>`).join('');
+el.status.addEventListener('change', renderItems);
+el.prior.addEventListener('input', renderItems);
+
+// ---------- Copy / print / clear ----------
+$('#copy-summary').addEventListener('click', async () => {
+  const rows = computeAll();
+  if (!rows.length) { toast('Nothing to copy yet'); return; }
+  const lines = rows.map(({ it, r }) => `• ${itemTitle(it)} (${itemSub(it, r)}): ${r.error ? 'not calculated' : `${fmt(r.atmos)} Atmos pts, ${fmt(r.status)} status pts`}`);
+  const text = `Atmos Rewards estimate\n${lines.join('\n')}\nTotal: ${$('#t-atmos').textContent} Atmos points · ${$('#t-status').textContent} status points\n${$('#tier-next').textContent}`;
+  try { await navigator.clipboard.writeText(text); toast('Summary copied to your clipboard'); }
+  catch (e) { toast('Couldn’t reach the clipboard. Try Print instead.'); }
+});
+$('#print').addEventListener('click', () => window.print());
+
+function clearEverything() {
+  state.items = []; state.ticket = 'paid';
+  $$('input').forEach(i => { if (i.type === 'checkbox') i.checked = false; else i.value = ''; });
+  el.status.selectedIndex = 0;
+  el.airline.value = 'alaska'; syncFlightForm('airline');
+  cardSel.selectedIndex = 0; syncCard();
+  selectTab(tabs[0]);
+  renderRoute(); renderItems();
+}
+$('#clear-all').addEventListener('click', () => { clearEverything(); window.scrollTo({ top: 0, behavior: 'smooth' }); toast('All cleared. Nothing was ever saved. 🌊'); });
+$('#forget-theme').addEventListener('click', () => { store.del('atmosCalc.theme'); store.del('atmosCalc.mode'); look.theme = 'np'; look.pref = 'auto'; applyTheme(); toast('Theme forgotten too. This device holds nothing from us now.'); });
+
+// ---------- Boot ----------
+$('#verified').textContent = prettyDate(RATES.verified);
+el.airline.innerHTML = airlineOptions('alaska');
+syncFlightForm('airline');
+syncCard();
+renderRoute();
+renderItems();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,2098 @@
+{
+ "verified": "2026-07-16",
+ "statusLevels": [
+  {
+   "key": "basic",
+   "name": "No Status",
+   "bonus": 0
+  },
+  {
+   "key": "silver",
+   "name": "Atmos Silver",
+   "bonus": 25
+  },
+  {
+   "key": "gold",
+   "name": "Atmos Gold",
+   "bonus": 50
+  },
+  {
+   "key": "platinum",
+   "name": "Atmos Platinum",
+   "bonus": 100
+  },
+  {
+   "key": "titanium",
+   "name": "Atmos Titanium",
+   "bonus": 150
+  }
+ ],
+ "tiers": [
+  {
+   "name": "Atmos Silver",
+   "points": 20000,
+   "oneworld": "Ruby"
+  },
+  {
+   "name": "Atmos Gold",
+   "points": 40000,
+   "oneworld": "Sapphire"
+  },
+  {
+   "name": "Atmos Platinum",
+   "points": 80000,
+   "oneworld": "Emerald"
+  },
+  {
+   "name": "Atmos Titanium",
+   "points": 135000,
+   "oneworld": "Emerald"
+  }
+ ],
+ "milestones": [
+  10000,
+  30000,
+  55000,
+  95000,
+  125000,
+  150000,
+  200000,
+  250000
+ ],
+ "airlines": [
+  {
+   "key": "alaska",
+   "name": "Alaska Airlines",
+   "code": "AS",
+   "group": "primary",
+   "via": {
+    "alaskaair": "as_hawaiian_on_as"
+   }
+  },
+  {
+   "key": "hawaiian",
+   "name": "Hawaiian Airlines",
+   "code": "HA",
+   "group": "primary",
+   "via": {
+    "alaskaair": "as_hawaiian_on_as",
+    "hawaiianair": "as_hawaiian_on_as"
+   }
+  },
+  {
+   "key": "american",
+   "name": "American Airlines",
+   "code": "AA",
+   "group": "oneworld",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "american_partner"
+   }
+  },
+  {
+   "key": "british",
+   "name": "British Airways",
+   "code": "BA",
+   "group": "oneworld",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "british_partner"
+   }
+  },
+  {
+   "key": "cathay",
+   "name": "Cathay Pacific",
+   "code": "CX",
+   "group": "oneworld",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "cathay_partner"
+   }
+  },
+  {
+   "key": "fiji",
+   "name": "Fiji Airways",
+   "code": "FJ",
+   "group": "oneworld",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "fiji_partner"
+   }
+  },
+  {
+   "key": "finnair",
+   "name": "Finnair",
+   "code": "AY",
+   "group": "oneworld",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "finnair_partner"
+   }
+  },
+  {
+   "key": "iberia",
+   "name": "Iberia",
+   "code": "IB",
+   "group": "oneworld",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "iberia_partner"
+   }
+  },
+  {
+   "key": "japan",
+   "name": "Japan Airlines",
+   "code": "JL",
+   "group": "oneworld",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "japan_partner"
+   }
+  },
+  {
+   "key": "malaysia",
+   "name": "Malaysia Airlines",
+   "code": "MH",
+   "group": "oneworld",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "malaysia_partner"
+   }
+  },
+  {
+   "key": "oman",
+   "name": "Oman Air",
+   "code": "WY",
+   "group": "oneworld",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "oman_partner_manual"
+   }
+  },
+  {
+   "key": "qantas",
+   "name": "Qantas",
+   "code": "QF",
+   "group": "oneworld",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "qantas_partner"
+   }
+  },
+  {
+   "key": "qatar",
+   "name": "Qatar Airways",
+   "code": "QR",
+   "group": "oneworld",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "qatar_partner"
+   }
+  },
+  {
+   "key": "royalairmaroc",
+   "name": "Royal Air Maroc",
+   "code": "AT",
+   "group": "oneworld",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "royalairmaroc_partner"
+   }
+  },
+  {
+   "key": "royaljordanian",
+   "name": "Royal Jordanian",
+   "code": "RJ",
+   "group": "oneworld",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "royaljordanian_partner"
+   }
+  },
+  {
+   "key": "srilankan",
+   "name": "SriLankan Airlines",
+   "code": "UL",
+   "group": "oneworld",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "srilankan_partner"
+   }
+  },
+  {
+   "key": "aerlingus",
+   "name": "Aer Lingus",
+   "code": "EI",
+   "group": "partner",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "aerlingus_partner"
+   }
+  },
+  {
+   "key": "airtahitinui",
+   "name": "Air Tahiti Nui",
+   "code": "TN",
+   "group": "partner",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "airtahitinui_partner"
+   }
+  },
+  {
+   "key": "condor",
+   "name": "Condor",
+   "code": "DE",
+   "group": "partner",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "condor_partner"
+   }
+  },
+  {
+   "key": "hainan",
+   "name": "Hainan Airlines",
+   "code": "HU",
+   "group": "partner",
+   "via": {
+    "partner_site": "hainan_partner"
+   }
+  },
+  {
+   "key": "icelandair",
+   "name": "Icelandair",
+   "code": "FI",
+   "group": "partner",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "icelandair_partner"
+   }
+  },
+  {
+   "key": "korean",
+   "name": "Korean Air",
+   "code": "KE",
+   "group": "partner",
+   "via": {
+    "alaskaair": "partner_on_as"
+   }
+  },
+  {
+   "key": "philippine",
+   "name": "Philippine Airlines",
+   "code": "PR",
+   "group": "earn_only",
+   "via": {
+    "alaskaair": "philippine_on_atmos"
+   }
+  },
+  {
+   "key": "porter",
+   "name": "Porter Airlines",
+   "code": "PD",
+   "group": "partner",
+   "via": {
+    "alaskaair": "partner_on_as",
+    "partner_site": "porter_partner"
+   }
+  },
+  {
+   "key": "singapore",
+   "name": "Singapore Airlines",
+   "code": "SQ",
+   "group": "partner",
+   "via": {
+    "alaskaair": "partner_on_as"
+   }
+  },
+  {
+   "key": "starlux",
+   "name": "STARLUX Airlines",
+   "code": "JX",
+   "group": "partner",
+   "via": {
+    "alaskaair": "starlux_on_atmos",
+    "partner_site": "starlux_partner"
+   }
+  },
+  {
+   "key": "aleutian",
+   "name": "Aleutian Airways",
+   "code": "LL",
+   "group": "earn_only",
+   "via": {
+    "alaskaair": "partner_on_as"
+   }
+  },
+  {
+   "key": "bahamasair",
+   "name": "Bahamasair",
+   "code": "UP",
+   "group": "earn_only",
+   "via": {
+    "alaskaair": "partner_on_as"
+   }
+  },
+  {
+   "key": "capeair",
+   "name": "Cape Air",
+   "code": "9K",
+   "group": "earn_only",
+   "via": {
+    "alaskaair": "partner_on_as"
+   }
+  },
+  {
+   "key": "contour",
+   "name": "Contour Airlines",
+   "code": "LF",
+   "group": "earn_only",
+   "via": {
+    "alaskaair": "partner_on_as"
+   }
+  },
+  {
+   "key": "ita",
+   "name": "ITA Airways",
+   "code": "AZ",
+   "group": "earn_only",
+   "via": {
+    "alaskaair": "partner_on_as"
+   }
+  },
+  {
+   "key": "kenmore",
+   "name": "Kenmore Air",
+   "code": "M5",
+   "group": "earn_only",
+   "via": {
+    "alaskaair": "partner_on_as"
+   }
+  },
+  {
+   "key": "mokulele",
+   "name": "Mokulele Airlines",
+   "code": "MW",
+   "group": "earn_only",
+   "via": {
+    "alaskaair": "partner_on_as"
+   }
+  },
+  {
+   "key": "southern",
+   "name": "Southern Airways Express",
+   "code": "9X",
+   "group": "earn_only",
+   "via": {
+    "alaskaair": "partner_on_as"
+   }
+  }
+ ],
+ "charts": {
+  "as_hawaiian_on_as": {
+   "label": "Current Alaska/Hawaiian distance earning",
+   "note": "Uses current distance-based earning. Choice-based earning is not applied until Atmos publishes its live launch date and complete operating rules.",
+   "min": 500,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/earn-points/flights",
+   "cabins": [
+    {
+     "name": "First",
+     "classes": [
+      {
+       "codes": "J",
+       "base": 100,
+       "bonus": 100,
+       "status": 200
+      },
+      {
+       "codes": "C",
+       "base": 100,
+       "bonus": 75,
+       "status": 175
+      },
+      {
+       "codes": "D, I",
+       "base": 100,
+       "bonus": 50,
+       "status": 150
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y, B",
+       "base": 100,
+       "bonus": 50,
+       "status": 150
+      },
+      {
+       "codes": "H, K",
+       "base": 100,
+       "bonus": 25,
+       "status": 125
+      },
+      {
+       "codes": "M, L, V, S, N, Q, O, G",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "X",
+       "base": 30,
+       "bonus": 0,
+       "status": 30
+      }
+     ]
+    }
+   ]
+  },
+  "partner_on_as": {
+   "label": "Partner booked through Alaska or Hawaiian",
+   "note": "Current published rate for partner flights booked through Alaska Airlines or Hawaiian Airlines.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": true,
+   "src": "https://www.alaskaair.com/atmosrewards/content/earn-points/flights",
+   "cabins": [
+    {
+     "name": "International First",
+     "classes": [
+      {
+       "codes": "F",
+       "base": 100,
+       "bonus": 250,
+       "status": 350
+      }
+     ]
+    },
+    {
+     "name": "International Business",
+     "classes": [
+      {
+       "codes": "J",
+       "base": 100,
+       "bonus": 150,
+       "status": 250
+      }
+     ]
+    },
+    {
+     "name": "Domestic First",
+     "classes": [
+      {
+       "codes": "F",
+       "base": 100,
+       "bonus": 50,
+       "status": 150
+      }
+     ]
+    },
+    {
+     "name": "Premium Economy",
+     "classes": [
+      {
+       "codes": "W",
+       "base": 100,
+       "bonus": 50,
+       "status": 150
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      }
+     ]
+    }
+   ]
+  },
+  "american_partner": {
+   "label": "American Airlines booked outside Alaska/Hawaiian",
+   "note": "American Airlines fare-class rate published by Atmos Rewards. Upgrade classes X and C must use the original booking class and are not listed.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/american-airlines",
+   "cabins": [
+    {
+     "name": "First",
+     "classes": [
+      {
+       "codes": "F",
+       "base": 100,
+       "bonus": 100,
+       "status": 200
+      },
+      {
+       "codes": "A",
+       "base": 100,
+       "bonus": 50,
+       "status": 150
+      }
+     ]
+    },
+    {
+     "name": "Business",
+     "classes": [
+      {
+       "codes": "J",
+       "base": 100,
+       "bonus": 100,
+       "status": 200
+      },
+      {
+       "codes": "D, I, R",
+       "base": 100,
+       "bonus": 50,
+       "status": 150
+      }
+     ]
+    },
+    {
+     "name": "Premium Economy",
+     "classes": [
+      {
+       "codes": "W",
+       "base": 100,
+       "bonus": 10,
+       "status": 110
+      },
+      {
+       "codes": "P",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "H, K, L, M, Y",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "G, V",
+       "base": 75,
+       "bonus": 0,
+       "status": 75
+      },
+      {
+       "codes": "N, S",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      },
+      {
+       "codes": "O, Q, B",
+       "base": 25,
+       "bonus": 0,
+       "status": 25
+      }
+     ]
+    }
+   ]
+  },
+  "british_partner": {
+   "label": "British Airways booked outside Alaska/Hawaiian",
+   "note": "British Airways fare-class rate published by Atmos Rewards.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/british-airways",
+   "cabins": [
+    {
+     "name": "First",
+     "classes": [
+      {
+       "codes": "F",
+       "base": 100,
+       "bonus": 400,
+       "status": 300
+      },
+      {
+       "codes": "A",
+       "base": 100,
+       "bonus": 350,
+       "status": 250
+      }
+     ]
+    },
+    {
+     "name": "Business",
+     "classes": [
+      {
+       "codes": "J, C, D",
+       "base": 100,
+       "bonus": 250,
+       "status": 250
+      },
+      {
+       "codes": "R, I",
+       "base": 100,
+       "bonus": 150,
+       "status": 150
+      }
+     ]
+    },
+    {
+     "name": "Premium Economy",
+     "classes": [
+      {
+       "codes": "W",
+       "base": 100,
+       "bonus": 50,
+       "status": 150
+      },
+      {
+       "codes": "E, T",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y, B, H",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "K, L, M, N, V, S",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      },
+      {
+       "codes": "Q, O, G",
+       "base": 25,
+       "bonus": 0,
+       "status": 25
+      }
+     ]
+    }
+   ]
+  },
+  "cathay_partner": {
+   "label": "Cathay Pacific booked outside Alaska/Hawaiian",
+   "note": "Cathay Pacific fare-class rate published by Atmos Rewards.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/cathay-pacific",
+   "cabins": [
+    {
+     "name": "First",
+     "classes": [
+      {
+       "codes": "F, A",
+       "base": 100,
+       "bonus": 250,
+       "status": 150
+      }
+     ]
+    },
+    {
+     "name": "Business",
+     "classes": [
+      {
+       "codes": "J, C, D, I, P",
+       "base": 100,
+       "bonus": 125,
+       "status": 125
+      }
+     ]
+    },
+    {
+     "name": "Premium Economy",
+     "classes": [
+      {
+       "codes": "W",
+       "base": 100,
+       "bonus": 10,
+       "status": 100
+      },
+      {
+       "codes": "E, R",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "B, H, K",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      },
+      {
+       "codes": "L, M, V, Q, O, S, N, G",
+       "base": 25,
+       "bonus": 0,
+       "status": 25
+      }
+     ]
+    }
+   ]
+  },
+  "fiji_partner": {
+   "label": "Fiji Airways booked outside Alaska/Hawaiian",
+   "note": "Fiji Airways fare-class rate published by Atmos Rewards.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/fiji-airways",
+   "cabins": [
+    {
+     "name": "Business",
+     "classes": [
+      {
+       "codes": "J, C, D, I",
+       "base": 100,
+       "bonus": 125,
+       "status": 125
+      },
+      {
+       "codes": "Z",
+       "base": 100,
+       "bonus": 100,
+       "status": 100
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y, B, H, L, O, K, W, Q, S, M, V, G",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "T, N, R",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      }
+     ]
+    }
+   ]
+  },
+  "finnair_partner": {
+   "label": "Finnair booked outside Alaska/Hawaiian",
+   "note": "Finnair fare-class rate published by Atmos Rewards.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/finnair",
+   "cabins": [
+    {
+     "name": "Business",
+     "classes": [
+      {
+       "codes": "J, C, D",
+       "base": 100,
+       "bonus": 200,
+       "status": 200
+      },
+      {
+       "codes": "I, R",
+       "base": 100,
+       "bonus": 125,
+       "status": 125
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y, B, H",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "K, M, P, T, V, L, N, S, Q, O, Z",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      },
+      {
+       "codes": "A, W, G",
+       "base": 25,
+       "bonus": 0,
+       "status": 25
+      }
+     ]
+    }
+   ]
+  },
+  "iberia_partner": {
+   "label": "Iberia booked outside Alaska/Hawaiian",
+   "note": "Iberia fare-class rate published by Atmos Rewards.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/iberia",
+   "cabins": [
+    {
+     "name": "Business",
+     "classes": [
+      {
+       "codes": "J, C, D, R, I",
+       "base": 100,
+       "bonus": 125,
+       "status": 125
+      }
+     ]
+    },
+    {
+     "name": "Premium Economy",
+     "classes": [
+      {
+       "codes": "W",
+       "base": 100,
+       "bonus": 10,
+       "status": 110
+      },
+      {
+       "codes": "E, T",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y, B, H",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "K, L, M, N, S, V, F, Z, G",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      },
+      {
+       "codes": "Q, O, A",
+       "base": 25,
+       "bonus": 0,
+       "status": 25
+      }
+     ]
+    }
+   ]
+  },
+  "japan_partner": {
+   "label": "Japan Airlines booked outside Alaska/Hawaiian",
+   "note": "Japan Airlines fare-class rate published by Atmos Rewards; Japan Transocean Air uses a separate chart and is not included.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/japan-airlines",
+   "cabins": [
+    {
+     "name": "First",
+     "classes": [
+      {
+       "codes": "F, A",
+       "base": 100,
+       "bonus": 250,
+       "status": 150
+      }
+     ]
+    },
+    {
+     "name": "Business",
+     "classes": [
+      {
+       "codes": "J, C, D",
+       "base": 100,
+       "bonus": 125,
+       "status": 125
+      },
+      {
+       "codes": "X, I",
+       "base": 70,
+       "bonus": 0,
+       "status": 70
+      }
+     ]
+    },
+    {
+     "name": "Premium Economy",
+     "classes": [
+      {
+       "codes": "W, R",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "E",
+       "base": 70,
+       "bonus": 0,
+       "status": 70
+      },
+      {
+       "codes": "P",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y, B",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "H, K, M",
+       "base": 70,
+       "bonus": 0,
+       "status": 70
+      },
+      {
+       "codes": "L, V, S",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      },
+      {
+       "codes": "G, N, O, Q",
+       "base": 30,
+       "bonus": 0,
+       "status": 30
+      }
+     ]
+    }
+   ]
+  },
+  "malaysia_partner": {
+   "label": "Malaysia Airlines booked outside Alaska/Hawaiian",
+   "note": "Malaysia Airlines fare-class rate published by Atmos Rewards.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/malaysia-airlines",
+   "cabins": [
+    {
+     "name": "Business Suite",
+     "classes": [
+      {
+       "codes": "F, A",
+       "base": 100,
+       "bonus": 150,
+       "status": 150
+      }
+     ]
+    },
+    {
+     "name": "Business",
+     "classes": [
+      {
+       "codes": "J, C, D",
+       "base": 100,
+       "bonus": 125,
+       "status": 125
+      },
+      {
+       "codes": "Z",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y, B, H",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "K, M",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      },
+      {
+       "codes": "L, V, S, N",
+       "base": 25,
+       "bonus": 0,
+       "status": 25
+      }
+     ]
+    }
+   ]
+  },
+  "oman_partner_manual": {
+   "label": "Oman Air booked outside Alaska/Hawaiian",
+   "note": "Atmos currently publishes a broken Oman Air earning table without usable rates. To avoid a false estimate, add the points shown by Atmos as a manual entry.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": true,
+   "byCabin": true,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/oman-air",
+   "cabins": [
+    {
+     "name": "Manual verification required",
+     "classes": [
+      {
+       "codes": "N/A",
+       "base": 0,
+       "bonus": 0,
+       "status": 0
+      }
+     ]
+    }
+   ]
+  },
+  "qantas_partner": {
+   "label": "Qantas booked outside Alaska/Hawaiian",
+   "note": "Qantas fare-class rate published by Atmos Rewards.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/qantas",
+   "cabins": [
+    {
+     "name": "First",
+     "classes": [
+      {
+       "codes": "F, A",
+       "base": 100,
+       "bonus": 250,
+       "status": 150
+      }
+     ]
+    },
+    {
+     "name": "Business",
+     "classes": [
+      {
+       "codes": "J, C, D, I",
+       "base": 100,
+       "bonus": 125,
+       "status": 125
+      }
+     ]
+    },
+    {
+     "name": "Premium Economy",
+     "classes": [
+      {
+       "codes": "T, W, R",
+       "base": 100,
+       "bonus": 10,
+       "status": 110
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "H, B, Y",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "G, K, L, M, S, V",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      },
+      {
+       "codes": "N, O, Q",
+       "base": 25,
+       "bonus": 0,
+       "status": 25
+      }
+     ]
+    }
+   ]
+  },
+  "qatar_partner": {
+   "label": "Qatar Airways booked outside Alaska/Hawaiian",
+   "note": "Qatar Airways fare-class rate published by Atmos Rewards.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/qatar-airways",
+   "cabins": [
+    {
+     "name": "First",
+     "classes": [
+      {
+       "codes": "F, A",
+       "base": 100,
+       "bonus": 250,
+       "status": 150
+      }
+     ]
+    },
+    {
+     "name": "Business",
+     "classes": [
+      {
+       "codes": "J, C, D, I, R",
+       "base": 100,
+       "bonus": 125,
+       "status": 125
+      },
+      {
+       "codes": "P",
+       "base": 75,
+       "bonus": 0,
+       "status": 75
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "B, H",
+       "base": 75,
+       "bonus": 0,
+       "status": 75
+      },
+      {
+       "codes": "K, M, L, V, S, N, Q, G",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      },
+      {
+       "codes": "T, O, W",
+       "base": 25,
+       "bonus": 0,
+       "status": 25
+      }
+     ]
+    }
+   ]
+  },
+  "royalairmaroc_partner": {
+   "label": "Royal Air Maroc booked outside Alaska/Hawaiian",
+   "note": "Royal Air Maroc fare-class rate published by Atmos Rewards.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/royal-air-maroc",
+   "cabins": [
+    {
+     "name": "Business",
+     "classes": [
+      {
+       "codes": "J, C, D, I",
+       "base": 100,
+       "bonus": 175,
+       "status": 175
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y, B, H",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "K, M, L, V",
+       "base": 75,
+       "bonus": 0,
+       "status": 75
+      },
+      {
+       "codes": "S, N, Q, O, T",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      },
+      {
+       "codes": "R, P, W, G",
+       "base": 25,
+       "bonus": 0,
+       "status": 25
+      }
+     ]
+    }
+   ]
+  },
+  "royaljordanian_partner": {
+   "label": "Royal Jordanian booked outside Alaska/Hawaiian",
+   "note": "Royal Jordanian fare-class rate published by Atmos Rewards.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/royal-jordanian",
+   "cabins": [
+    {
+     "name": "Business",
+     "classes": [
+      {
+       "codes": "J, C, D",
+       "base": 100,
+       "bonus": 150,
+       "status": 150
+      },
+      {
+       "codes": "I, Z",
+       "base": 100,
+       "bonus": 25,
+       "status": 125
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "B, H",
+       "base": 75,
+       "bonus": 0,
+       "status": 75
+      },
+      {
+       "codes": "K, M, L",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      },
+      {
+       "codes": "S, V, Q, W, O",
+       "base": 25,
+       "bonus": 0,
+       "status": 25
+      }
+     ]
+    }
+   ]
+  },
+  "srilankan_partner": {
+   "label": "SriLankan Airlines booked outside Alaska/Hawaiian",
+   "note": "SriLankan Airlines fare-class rate published by Atmos Rewards.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/srilankan-airlines",
+   "cabins": [
+    {
+     "name": "Business",
+     "classes": [
+      {
+       "codes": "J, C, D",
+       "base": 100,
+       "bonus": 125,
+       "status": 125
+      },
+      {
+       "codes": "I",
+       "base": 100,
+       "bonus": 10,
+       "status": 110
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y, B, P",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "K, H, W, M",
+       "base": 75,
+       "bonus": 0,
+       "status": 75
+      },
+      {
+       "codes": "E, L, R, V, S",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      },
+      {
+       "codes": "N, Q, O",
+       "base": 25,
+       "bonus": 0,
+       "status": 25
+      }
+     ]
+    }
+   ]
+  },
+  "aerlingus_partner": {
+   "label": "Aer Lingus booked outside Alaska/Hawaiian",
+   "note": "Aer Lingus fare-class rate published by Atmos Rewards.",
+   "min": 0,
+   "from": "2023-12-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/aer-lingus",
+   "cabins": [
+    {
+     "name": "Business",
+     "classes": [
+      {
+       "codes": "J, C, D, R, I",
+       "base": 100,
+       "bonus": 100,
+       "status": 100
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y, B, H",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "K, M, L, V, S",
+       "base": 75,
+       "bonus": 0,
+       "status": 75
+      },
+      {
+       "codes": "F, Q, Z, O, N",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      },
+      {
+       "codes": "G, A",
+       "base": 25,
+       "bonus": 0,
+       "status": 25
+      }
+     ]
+    }
+   ]
+  },
+  "airtahitinui_partner": {
+   "label": "Air Tahiti Nui booked outside Alaska/Hawaiian",
+   "note": "Air Tahiti Nui fare-class rate published by Atmos Rewards.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/air-tahiti-nui",
+   "cabins": [
+    {
+     "name": "Poerava Business",
+     "classes": [
+      {
+       "codes": "C, J",
+       "base": 100,
+       "bonus": 50,
+       "status": 150
+      },
+      {
+       "codes": "D, Z",
+       "base": 100,
+       "bonus": 25,
+       "status": 125
+      }
+     ]
+    },
+    {
+     "name": "Moana Premium",
+     "classes": [
+      {
+       "codes": "W",
+       "base": 100,
+       "bonus": 15,
+       "status": 115
+      },
+      {
+       "codes": "E, A, P",
+       "base": 100,
+       "bonus": 5,
+       "status": 105
+      }
+     ]
+    },
+    {
+     "name": "Moana Economy",
+     "classes": [
+      {
+       "codes": "Y, M, K, H",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "T, L, N",
+       "base": 75,
+       "bonus": 0,
+       "status": 75
+      },
+      {
+       "codes": "B, Q, G, V",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      },
+      {
+       "codes": "S",
+       "base": 25,
+       "bonus": 0,
+       "status": 25
+      }
+     ]
+    }
+   ]
+  },
+  "condor_partner": {
+   "label": "Condor booked outside Alaska/Hawaiian",
+   "note": "Condor publishes rates by purchased cabin rather than booking class.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": true,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/condor",
+   "cabins": [
+    {
+     "name": "Business Class",
+     "classes": [
+      {
+       "codes": "Cabin rate",
+       "base": 100,
+       "bonus": 200,
+       "status": 200
+      }
+     ]
+    },
+    {
+     "name": "Premium Economy",
+     "classes": [
+      {
+       "codes": "Cabin rate",
+       "base": 100,
+       "bonus": 25,
+       "status": 125
+      }
+     ]
+    },
+    {
+     "name": "Economy Flex",
+     "classes": [
+      {
+       "codes": "Cabin rate",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      }
+     ]
+    },
+    {
+     "name": "Economy Base",
+     "classes": [
+      {
+       "codes": "Cabin rate",
+       "base": 75,
+       "bonus": 0,
+       "status": 75
+      }
+     ]
+    },
+    {
+     "name": "Economy Promotion",
+     "classes": [
+      {
+       "codes": "Cabin rate",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      }
+     ]
+    }
+   ]
+  },
+  "hainan_partner": {
+   "label": "Hainan Airlines booked outside Alaska/Hawaiian",
+   "note": "Hainan Airlines fare-class rate published by Atmos Rewards.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/hainan-airlines",
+   "cabins": [
+    {
+     "name": "Business",
+     "classes": [
+      {
+       "codes": "C",
+       "base": 100,
+       "bonus": 250,
+       "status": 250
+      },
+      {
+       "codes": "D",
+       "base": 100,
+       "bonus": 180,
+       "status": 180
+      },
+      {
+       "codes": "Z",
+       "base": 100,
+       "bonus": 130,
+       "status": 130
+      },
+      {
+       "codes": "I",
+       "base": 100,
+       "bonus": 110,
+       "status": 110
+      },
+      {
+       "codes": "R",
+       "base": 85,
+       "bonus": 0,
+       "status": 85
+      }
+     ]
+    },
+    {
+     "name": "Premium Economy",
+     "classes": [
+      {
+       "codes": "W",
+       "base": 100,
+       "bonus": 10,
+       "status": 110
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "B, H, K, Q",
+       "base": 85,
+       "bonus": 0,
+       "status": 85
+      },
+      {
+       "codes": "L, M, X, E",
+       "base": 60,
+       "bonus": 0,
+       "status": 60
+      },
+      {
+       "codes": "V, N, P",
+       "base": 30,
+       "bonus": 0,
+       "status": 30
+      }
+     ]
+    }
+   ]
+  },
+  "icelandair_partner": {
+   "label": "Icelandair booked outside Alaska/Hawaiian",
+   "note": "Icelandair fare-class rate published by Atmos Rewards.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/icelandair",
+   "cabins": [
+    {
+     "name": "Saga Premium",
+     "classes": [
+      {
+       "codes": "C, D, J",
+       "base": 100,
+       "bonus": 150,
+       "status": 150
+      },
+      {
+       "codes": "A, E",
+       "base": 100,
+       "bonus": 25,
+       "status": 125
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y",
+       "base": 100,
+       "bonus": 25,
+       "status": 125
+      },
+      {
+       "codes": "B, K, M, Q",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "G, H, L, O, S, T, V",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      },
+      {
+       "codes": "U, N",
+       "base": 25,
+       "bonus": 0,
+       "status": 25
+      }
+     ]
+    }
+   ]
+  },
+  "porter_partner": {
+   "label": "Porter Airlines booked outside Alaska/Hawaiian",
+   "note": "Porter Airlines fare-class rate published by Atmos Rewards.",
+   "min": 0,
+   "from": "2024-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/porter",
+   "cabins": [
+    {
+     "name": "Porter Reserve",
+     "classes": [
+      {
+       "codes": "U, F, Q, E",
+       "base": 100,
+       "bonus": 25,
+       "status": 125
+      }
+     ]
+    },
+    {
+     "name": "Porter Classic",
+     "classes": [
+      {
+       "codes": "L, X, A, S, P, N, K, H, G, B, Y",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      }
+     ]
+    }
+   ]
+  },
+  "starlux_partner": {
+   "label": "STARLUX booked outside Alaska/Hawaiian",
+   "note": "STARLUX partner-site flights earn redeemable points but no Atmos status points.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/starlux",
+   "cabins": [
+    {
+     "name": "First",
+     "classes": [
+      {
+       "codes": "F, A",
+       "base": 100,
+       "bonus": 250,
+       "status": 0
+      }
+     ]
+    },
+    {
+     "name": "Business",
+     "classes": [
+      {
+       "codes": "J, C, D",
+       "base": 100,
+       "bonus": 150,
+       "status": 0
+      }
+     ]
+    },
+    {
+     "name": "Premium Economy",
+     "classes": [
+      {
+       "codes": "W, R, E",
+       "base": 100,
+       "bonus": 25,
+       "status": 0
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y, B, H, K, M, L, V, S, N",
+       "base": 100,
+       "bonus": 0,
+       "status": 0
+      }
+     ]
+    }
+   ]
+  },
+  "starlux_on_atmos": {
+   "label": "STARLUX booked through Alaska/Hawaiian",
+   "note": "STARLUX rate for flights booked through Alaska Airlines or Hawaiian Airlines.",
+   "min": 0,
+   "from": "2025-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/starlux",
+   "cabins": [
+    {
+     "name": "First",
+     "classes": [
+      {
+       "codes": "F, A",
+       "base": 100,
+       "bonus": 250,
+       "status": 100
+      }
+     ]
+    },
+    {
+     "name": "Business",
+     "classes": [
+      {
+       "codes": "J, C, D",
+       "base": 100,
+       "bonus": 150,
+       "status": 100
+      }
+     ]
+    },
+    {
+     "name": "Premium Economy",
+     "classes": [
+      {
+       "codes": "W, R, E",
+       "base": 100,
+       "bonus": 25,
+       "status": 100
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y, B, H, K, M, L, V, S, N",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      }
+     ]
+    }
+   ]
+  },
+  "philippine_on_atmos": {
+   "label": "Philippine Airlines booked through Alaska/Hawaiian",
+   "note": "Philippine Airlines rate for eligible flights purchased through Alaska Airlines or Hawaiian Airlines.",
+   "min": 0,
+   "from": "2026-01-01",
+   "manual": false,
+   "byCabin": false,
+   "src": "https://www.alaskaair.com/atmosrewards/content/partners/airlines/philippine-airlines",
+   "cabins": [
+    {
+     "name": "Business",
+     "classes": [
+      {
+       "codes": "J, C, D",
+       "base": 100,
+       "bonus": 150,
+       "status": 150
+      },
+      {
+       "codes": "I, Z",
+       "base": 100,
+       "bonus": 25,
+       "status": 125
+      }
+     ]
+    },
+    {
+     "name": "Economy",
+     "classes": [
+      {
+       "codes": "Y",
+       "base": 100,
+       "bonus": 0,
+       "status": 100
+      },
+      {
+       "codes": "B, H",
+       "base": 75,
+       "bonus": 0,
+       "status": 75
+      },
+      {
+       "codes": "K, M, L",
+       "base": 50,
+       "bonus": 0,
+       "status": 50
+      },
+      {
+       "codes": "S, V, Q, W, O",
+       "base": 25,
+       "bonus": 0,
+       "status": 25
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "cards": [
+  {
+   "key": "ascent",
+   "name": "Atmos Rewards Ascent Visa Signature",
+   "relBonus": 10,
+   "statusPer": 3,
+   "anniversary": 0,
+   "note": "",
+   "src": "https://www.bankofamerica.com/credit-cards/products/alaska-airlines-credit-card/",
+   "cats": [
+    {
+     "key": "airline",
+     "label": "Alaska Airlines and Hawaiian Airlines purchases",
+     "rate": 3,
+     "cap": null
+    },
+    {
+     "key": "everyday_bonus",
+     "label": "Gas, EV charging, cable, streaming, and local transit (including rideshare)",
+     "rate": 2,
+     "cap": null
+    },
+    {
+     "key": "bilt_rent",
+     "label": "Eligible rent paid through Bilt",
+     "rate": 3,
+     "cap": 50000
+    },
+    {
+     "key": "other",
+     "label": "All other eligible purchases",
+     "rate": 1,
+     "cap": null
+    }
+   ]
+  },
+  {
+   "key": "summit",
+   "name": "Atmos Rewards Summit Visa Infinite",
+   "relBonus": 10,
+   "statusPer": 2,
+   "anniversary": 10000,
+   "note": "",
+   "src": "https://www.bankofamerica.com/credit-cards/products/alaska-airlines-infinite-credit-card/",
+   "cats": [
+    {
+     "key": "three_x",
+     "label": "Alaska/Hawaiian, eligible dining, and eligible foreign purchases",
+     "rate": 3,
+     "cap": null
+    },
+    {
+     "key": "bilt_rent",
+     "label": "Eligible rent paid through Bilt",
+     "rate": 3,
+     "cap": 50000
+    },
+    {
+     "key": "other",
+     "label": "All other eligible purchases",
+     "rate": 1,
+     "cap": null
+    }
+   ]
+  },
+  {
+   "key": "business",
+   "name": "Atmos Rewards Visa Signature Business",
+   "relBonus": 10,
+   "statusPer": 3,
+   "anniversary": 0,
+   "note": "",
+   "src": "https://business.bankofamerica.com/en/credit-cards/atmos-rewards",
+   "cats": [
+    {
+     "key": "airline",
+     "label": "Alaska Airlines and Hawaiian Airlines purchases",
+     "rate": 3,
+     "cap": null
+    },
+    {
+     "key": "business_bonus",
+     "label": "Gas, EV charging, shipping, and local transit (including rideshare)",
+     "rate": 2,
+     "cap": null
+    },
+    {
+     "key": "other",
+     "label": "All other eligible purchases",
+     "rate": 1,
+     "cap": null
+    }
+   ]
+  },
+  {
+   "key": "hawaiian_personal",
+   "name": "Hawaiian Airlines World Elite Mastercard",
+   "relBonus": 0,
+   "statusPer": 3,
+   "anniversary": 0,
+   "note": "",
+   "src": "https://news.alaskaair.com/loyalty/aloha-to-big-rewards-millions-of-atmos-rewards-points-up-for-grabs-for-hawaiian-airlines-world-elite-mastercard-cardmembers-in-2026/",
+   "cats": [
+    {
+     "key": "airline",
+     "label": "Alaska Airlines and Hawaiian Airlines purchases",
+     "rate": 3,
+     "cap": null
+    },
+    {
+     "key": "everyday_bonus",
+     "label": "Gas, dining, and eligible grocery-store purchases",
+     "rate": 2,
+     "cap": null
+    },
+    {
+     "key": "other",
+     "label": "All other eligible purchases",
+     "rate": 1,
+     "cap": null
+    }
+   ]
+  },
+  {
+   "key": "hawaiian_business",
+   "name": "Hawaiian Airlines World Elite Business Mastercard",
+   "relBonus": 0,
+   "statusPer": 3,
+   "anniversary": 0,
+   "note": "Variable anniversary bonuses and targeted Hawaii-resident promotions must be added manually after they post.",
+   "src": "https://www.boh.com/business/credit-card/benefits",
+   "cats": [
+    {
+     "key": "airline",
+     "label": "Alaska Airlines and Hawaiian Airlines purchases",
+     "rate": 3,
+     "cap": null
+    },
+    {
+     "key": "business_bonus",
+     "label": "Gas, dining, and office-supply-store purchases",
+     "rate": 2,
+     "cap": null
+    },
+    {
+     "key": "other",
+     "label": "All other eligible purchases",
+     "rate": 1,
+     "cap": null
+    }
+   ]
+  }
+ ],
+ "sources": {
+  "flights": "https://www.alaskaair.com/atmosrewards/content/earn-points/flights",
+  "partners": "https://www.alaskaair.com/atmosrewards/content/partners/airlines",
+  "saver": "https://www.alaskaair.com/content/travel-info/flight-experience/saver",
+  "award": "https://www.alaskaair.com/atmosrewards/content/use-points/award-charts",
+  "status": "https://www.alaskaair.com/atmosrewards/content/earn-points/status-points-guide"
+ }
+}
